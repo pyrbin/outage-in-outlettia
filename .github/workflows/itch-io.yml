@@ -18,6 +18,7 @@ jobs:
           targetPlatform: StandaloneWindows64
           projectPath: ./
           buildsPath: Out
+          allowDirtyBuild: true
       - name: Publish with Butler
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         with:
