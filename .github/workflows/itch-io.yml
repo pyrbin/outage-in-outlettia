@@ -1,24 +1,38 @@
 name: Build & Publish to itch.io
+
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
           lfs: true
-      - name: Build Unity project
+  
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+          
+      # Build
+      - name: Build project
         uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: auto
           targetPlatform: StandaloneWindows64
-          projectPath: ./
           buildsPath: Out
           allowDirtyBuild: true
+          
+      # Publish
       - name: Publish with Butler
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         with:
