@@ -1,0 +1,25 @@
+name: Build & Publish to itch.io
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Unity project
+        uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: auto
+          targetPlatform: web
+          buildsPath: Out
+      - name: Publish with Butler
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+        with:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: windows
+          ITCH_GAME: ci-test-project
+          ITCH_USER: pyrbin
+          PACKAGE: Out
