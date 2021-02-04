@@ -27,7 +27,7 @@ jobs:
       - name: Build project
         uses: game-ci/unity-builder@v2.0-alpha-6
         with:
-          unityVersion: auto
+          unityVersion: 2020.2.3f1
           targetPlatform: StandaloneWindows64
           buildsPath: Out
           allowDirtyBuild: true
