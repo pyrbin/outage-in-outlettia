@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout
-      - name: Checkout repository
+      - name: Checkout repository 🔎
         uses: actions/checkout@v2
         with:
           lfs: true
@@ -24,7 +24,7 @@ jobs:
           key: Library
           
       # Build
-      - name: Build project
+      - name: Build project 🛠
         uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: 2020.2.3f1
@@ -33,7 +33,7 @@ jobs:
           allowDirtyBuild: true
           
       # Publish
-      - name: Publish with Butler
+      - name: Publish with butler 🕹
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         with:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
