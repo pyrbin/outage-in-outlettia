@@ -9,11 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          lfs: true
       - name: Build Unity project
         uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: auto
-          targetPlatform: web
+          targetPlatform: StandaloneWindows64
+          projectPath: ./
           buildsPath: Out
       - name: Publish with Butler
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
