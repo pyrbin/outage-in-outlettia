@@ -35,7 +35,7 @@ jobs:
       # Publish
       - name: Publish with butler 🕹
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
-        with:
+        env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
           ITCH_GAME: ci-test-project
