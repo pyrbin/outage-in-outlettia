@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sample {
-    public class SampleScript : MonoBehaviour
+public class SampleScript : MonoBehaviour
+{
+    [SerializeField] private InputReader inputReader;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        inputReader.PauseEvent += PauseGame;
+    }
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+    // Update is called once per frame
+    void PauseGame()
+    {
+        Debug.Log("Paused game? :)");
     }
 }
+

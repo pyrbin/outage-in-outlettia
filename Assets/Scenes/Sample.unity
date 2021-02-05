@@ -383,6 +383,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4573254222735703926, guid: 0e07d4ab37f533348af5c7855298cb66, type: 3}
+      propertyPath: inputReader
+      value: 
+      objectReference: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
     - target: {fileID: 4573254222735703929, guid: 0e07d4ab37f533348af5c7855298cb66, type: 3}
       propertyPath: m_Name
       value: Orange
