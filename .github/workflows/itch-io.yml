@@ -5,6 +5,7 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  PROJECT_PATH: .
 
 jobs:
   build:
@@ -29,8 +30,17 @@ jobs:
         with:
           unityVersion: 2020.2.3f1
           targetPlatform: StandaloneWindows64
+          customParameters: "-nographics"
+          buildName: win
           buildsPath: Out
           allowDirtyBuild: true
+
+      # Upload build
+      - name: Upload build 💎
+        uses: actions/upload-artifact@v2
+        with:
+          name: win
+          path: Out
           
       # Publish
       - name: Publish with butler 🕹
