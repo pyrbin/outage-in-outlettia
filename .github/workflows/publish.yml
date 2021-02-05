@@ -1,0 +1,54 @@
+name: Build & Publish project
+
+on:
+  workflow_dispatch:
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  PROJECT_PATH: .
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository 🔎
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+  
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+          
+      # Build
+      - name: Build project 🛠
+        uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: 2020.2.3f1
+          targetPlatform: StandaloneWindows64
+          buildsPath: Out
+          projectPath: ${{ env.PROJECT_PATH }}
+          allowDirtyBuild: true
+
+      # Upload build
+      - name: Upload build 💎
+        uses: actions/upload-artifact@v2
+        with:
+          name: win
+          path: Out
+
+      # @todo create release
+
+      # Publish
+      - name: Publish with butler 🕹
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: windows
+          ITCH_GAME: mini-jam-73-power
+          ITCH_USER: pyrbin
+          PACKAGE: Out
