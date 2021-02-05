@@ -1,4 +1,4 @@
-name: Build & Publish to itch.io
+name: Build & Publish project
 
 on:
   workflow_dispatch:
