@@ -30,8 +30,8 @@ jobs:
         with:
           unityVersion: 2020.2.3f1
           targetPlatform: StandaloneWindows64
-          buildName: win
           buildsPath: Out
+          projectPath: ${{ env.PROJECT_PATH }}
           allowDirtyBuild: true
 
       # Upload build
@@ -40,13 +40,15 @@ jobs:
         with:
           name: win
           path: Out
-          
+
+      # @todo create release
+
       # Publish
       - name: Publish with butler 🕹
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
-          ITCH_GAME: ci-test-project
+          ITCH_GAME: mini-jam-73-power
           ITCH_USER: pyrbin
           PACKAGE: Out
