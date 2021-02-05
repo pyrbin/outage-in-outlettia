@@ -8,6 +8,10 @@ public class SampleScript : MonoBehaviour
     void Start()
     {
         inputReader.PauseEvent += PauseGame;
+        inputReader.MoveEvent += (float axis) => Debug.Log("Moving! Direction: " + axis);
+        inputReader.JumpEvent += () => Debug.Log("Jump!");
+        inputReader.InteractEvent += () => Debug.Log("Interacting!");
+        inputReader.HoldEvent += () => Debug.Log("Hold!");
     }
 
     // Update is called once per frame

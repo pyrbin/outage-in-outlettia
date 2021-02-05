@@ -8,6 +8,10 @@ using UnityEngine.InputSystem;
 public class InputReader : ScriptableObject, GameInput.IGameplayActions
 {
     public event UnityAction PauseEvent = delegate { };
+    public event UnityAction<float> MoveEvent = delegate { };
+    public event UnityAction JumpEvent = delegate { };
+    public event UnityAction HoldEvent = delegate { };
+    public event UnityAction InteractEvent = delegate { };
 
     private GameInput GameInput;
 
@@ -37,10 +41,33 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
         GameInput.Gameplay.Disable();
     }
 
-
     public void OnPause(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
             PauseEvent.Invoke();
     }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        MoveEvent.Invoke(context.ReadValue<float>());
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            JumpEvent.Invoke();
+    }
+
+    public void OnHold(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            HoldEvent.Invoke();
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            InteractEvent.Invoke();
+    }
+
 }
