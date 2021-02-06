@@ -1,8 +1,23 @@
 
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Unity.Mathematics
 {
+    public static unsafe class round
+    {
+        /// <summary>
+        /// Round float to 2 decimals
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float d2(float value)
+        {
+            return math.round(value * 100.0f) * 0.01f;
+        }
+    }
+
     public static unsafe class Int2Extensions
     {
         public static Vector2Int AsVector2Int(this int2 me)

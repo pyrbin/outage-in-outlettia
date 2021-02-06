@@ -16,10 +16,13 @@ public class Wire : MonoBehaviour
 
     public float Width = 0.15f;
     public float Gravity = -4.35f;
+    public float MaxLength = 100;
 
     public bool WrapAroundCorners = true;
 
     public event Action<Point> LastPointUpdated;
+    public event Action ReachedMaxLength;
+    private bool reachedMaxLenGuard = false;
 
     [Header("Debugging")]
     public bool DrawGizmos = true;
@@ -33,6 +36,11 @@ public class Wire : MonoBehaviour
     private ContactPoint2D[] ContactPoints;
 
     private float Length = 0f;
+
+    private void Freeze()
+    {
+        this.enabled = false;
+    }
 
     public void Start()
     {
@@ -48,14 +56,22 @@ public class Wire : MonoBehaviour
     }
 
     public Point Current => new Point { Value = ((float3)Target.position).xy };
+
     public Point LastPlaced => Placed.Last();
+    public Point SecondLastPlaced => Placed[LastPlacedIndex - 1];
+
     public bool LastPlacedInAir => InAir.Contains(LastPlaced);
     private Point lastPlacedTemp;
-    public bool LastPlacedIsHangable(Transform reference) => IsHangable(Placed.Count - 1, reference);
+    public bool LastPlacedIsHangable(Transform reference) => IsHangable(LastPlacedIndex, reference);
     public int InAirIndex(Point point) => InAir.IndexOf(point);
+    public int LastPlacedIndex => Placed.Count - 1;
 
-    public float TotalLength => Length + DragLength;
-    public float DragLength => math.abs(math.distance(LastPlaced.Value, Current.Value));
+    public float TotalLength => round.d2(Length + DragLength);
+    public float DragLength => round.d2(math.abs(math.distance(LastPlaced.Value, Current.Value)));
+    public float AllowedDragLength => round.d2(MaxLength - Length);
+
+    public bool AtMaxLength => TotalLength >= MaxLength;
+    public bool WentAboveMaxLength => TotalLength > MaxLength;
 
     public void Tighten()
     {
@@ -87,15 +103,33 @@ public class Wire : MonoBehaviour
         }
     }
 
-    public void Place()
+    public bool Place()
     {
+        if (AtMaxLength) return false;
+
         var hit = Physics2D.Raycast(Current.Value, -Vector2.up, Mathf.Infinity, GroundMask);
-        if (hit.collider != null)
+        if (hit.collider == null) return false;
+        UnsafeAdd(new Point { Value = Current.Value }, math.abs(math.distance(Current.Value, LastPlaced.Value)));
+        InAir.Add(LastPlaced);
+        return true;
+    }
+
+    public void UnsafeAdd(Point point, float distance)
+    {
+        Length += round.d2(distance);
+        Placed.Add(new Point { Value = point.Value });
+    }
+
+    public void RemoveLast()
+    {
+        var idx = InAirIndex(LastPlaced);
+        if (idx != -1)
         {
-            Length += math.abs(math.distance(Current.Value, LastPlaced.Value));
-            Placed.Add(new Point { Value = Current.Value });
-            InAir.Add(LastPlaced);
+            InAir.RemoveAt(idx);
         }
+        var distance = math.abs(math.distance(SecondLastPlaced.Value, LastPlaced.Value));
+        Length -= round.d2(distance);
+        Placed.RemoveAt(Placed.Count - 1);
     }
 
     public bool IsViableHangPivot(int index, Transform reference)
@@ -122,21 +156,18 @@ public class Wire : MonoBehaviour
         var hit = Physics2D.Raycast(Target.position, direction, distance, GroundMask);
         if (hit && NotTooSimilarToLast(hit.point))
         {
-            Placed.Add(new Point { Value = hit.point });
+            UnsafeAdd(new Point { Value = hit.point }, math.abs(math.distance(hit.point, LastPlaced.Value)));
         }
     }
 
     private void FixedUpdate()
     {
-        // Between last point & target
         UpdatePointsInAir();
 
         CheckWrapForInAir();
 
         WrapWireAroundObstacles(LastPlaced.Value, Current.Value, Placed.Count);
 
-        //@todo uncomment for corner wrapping
-        // not working 100% atm
         if (WrapAroundCorners)
             TargetToLastRaycastCheck();
 
@@ -144,6 +175,11 @@ public class Wire : MonoBehaviour
         {
             lastPlacedTemp = LastPlaced;
             LastPointUpdated?.Invoke(lastPlacedTemp);
+        }
+
+        if (WentAboveMaxLength)
+        {
+            ReachedMaxLength?.Invoke();
         }
     }
 
@@ -221,7 +257,7 @@ public class Wire : MonoBehaviour
 
     private bool NotTooSimilarToLast(float2 point)
     {
-        return math.abs(math.distance(LastPlaced.Value, point)) > 0.05f;
+        return math.abs(math.distance(LastPlaced.Value, point)) > 0.15f;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

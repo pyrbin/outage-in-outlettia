@@ -42,12 +42,24 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
+        UpdateMovement();
+    }
+
+    public void Stop()
+    {
+        rbody.velocity = float2.zero;
+    }
+
+    private void UpdateMovement()
+    {
         if (wireHolder.AttachedToWire)
         {
             WireMovement();
         }
         else
         {
+            if (wireHolder.Wire && wireHolder.Wire.AtMaxLength)
+                return;
             Deaccalerate();
             Accelerate();
         }
@@ -90,15 +102,13 @@ public class MovementController : MonoBehaviour
 
     public void Jump()
     {
-
-        if (wireHolder.AttachedToWire)
+        if (wireHolder.Wire && wireHolder.Wire.AtMaxLength)
+            return;
+        if (!wireHolder.AttachedToWire)
         {
-        }
-        else
-        {
-            if (Mathf.Abs(rbody.velocity.y) < 0.001f)
+            if (math.abs(rbody.velocity.y) < 0.001f)
             {
-                rbody.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+                rbody.AddForce(new float2(0, JumpForce), ForceMode2D.Impulse);
                 OnJump.Invoke();
             }
         }

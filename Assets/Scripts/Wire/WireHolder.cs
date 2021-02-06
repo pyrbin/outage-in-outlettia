@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class WireHolder : MonoBehaviour
 {
     [Header("Wire Settings")]
-    [Required]
     public Wire Wire;
     public float PlaceDistance = 1f;
     public float RetractSpeed = 1f;
@@ -28,11 +27,14 @@ public class WireHolder : MonoBehaviour
     private bool retracting = false;
     private float distanceX = 0;
     private float3 previousPosition = float3.zero;
+    private Wire.Point originHangPoint;
 
     public bool IsHanging => AttachedToWire;
     public bool AttachedToWire => DistanceJoint.enabled;
 
     public UnityAction<Checkpoint> NewCheckpoint = delegate { };
+
+    public UnityAction WireReachedMaxLength = delegate { };
 
     public void ToggleRecordingDistance() => recordTravel = !recordTravel;
 
@@ -70,6 +72,34 @@ public class WireHolder : MonoBehaviour
         TryGetComponent(out Controller);
 
         DistanceJoint.enabled = false;
+
+        if (Wire)
+            SetWire(wire: Wire);
+    }
+
+    void SetWire(Wire wire)
+    {
+        if (wire != Wire && Wire)
+        {
+            Wire.ReachedMaxLength -= OnWireReachedMaxLength;
+        }
+
+        Wire = wire;
+        Wire.ReachedMaxLength += OnWireReachedMaxLength;
+    }
+
+    void OnWireReachedMaxLength()
+    {
+        WireReachedMaxLength?.Invoke();
+        if (!AttachedToWire || !tryingToHold)
+        {
+            if (Controller.IsFalling)
+                ToggleHold();
+            else
+            {
+                Controller.Stop();
+            }
+        }
     }
 
     void EnableShouldPlace()
@@ -79,6 +109,7 @@ public class WireHolder : MonoBehaviour
 
     void EnableHanging()
     {
+        originHangPoint = Wire.LastPlaced;
         retracting = false;
         Wire.LastPointUpdated += UpdateAttachedPoint;
         SyncDistanceJointWithWirePoint();
@@ -88,6 +119,7 @@ public class WireHolder : MonoBehaviour
 
     void DisableHanging()
     {
+        if (Wire.AtMaxLength) return;
         DistanceJoint.enabled = false;
         tryingToHold = false;
         retracting = false;
@@ -107,13 +139,22 @@ public class WireHolder : MonoBehaviour
 
     void SetJointDistance(float distance)
     {
+        // Clamp length
+        distance = math.min(Wire.AllowedDragLength, distance);
         DistanceJoint.distance = distance;
         DistanceJoint.maxDistanceOnly = true;
         DistanceJoint.connectedAnchor = Wire.LastPlaced.Value;
     }
 
+    void Update()
+    {
+        if (!Wire) return;
+    }
+
     void FixedUpdate()
     {
+        if (!Wire) return;
+
         // Trying to hold state
         if (tryingToHold)
         {
@@ -123,11 +164,32 @@ public class WireHolder : MonoBehaviour
             }
         }
 
+        // Hanging state
+        UpdateWhenHanging();
         // Retracting state
         UpdateRetractWire();
 
         // Place wire points state
         UpdateWirePlacement();
+    }
+
+    public void UpdateWhenHanging()
+    {
+        if (!IsHanging) return;
+        if (Wire.LastPlacedIndex != 0 && Wire.IsHangable(Wire.LastPlacedIndex - 1, transform))
+        {
+            if (PointIsInSight(Wire.LastPlaced.Value) && PointIsInSight(Wire.SecondLastPlaced.Value))
+            {
+                Wire.RemoveLast();
+            }
+        }
+    }
+
+    public bool PointIsInSight(float2 point)
+    {
+        var direction = math.normalize(point - ((float3)transform.position).xy);
+        var distance = math.distance(point, ((float3)transform.position).xy) - 0.15f;
+        return !Physics2D.Raycast(transform.position, direction, distance, Wire.GroundMask);
     }
 
     public void UpdateRetractWire()
