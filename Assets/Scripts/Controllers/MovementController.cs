@@ -45,7 +45,7 @@ public class MovementController : MonoBehaviour
 
     public bool IsGrounded => rbody.IsTouching(ContactFilter);
 
-    public bool IsFalling => rbody.velocity.y <= 0 && !IsGrounded;
+    public bool IsFalling => rbody.velocity.y < 0 && !IsGrounded;
 
     public float2 Velocity => rbody.velocity;
 
