@@ -37,10 +37,43 @@ public class Wire : MonoBehaviour
     }
 
     public Point Current => new Point { Value = ((float3)Target.position).xy };
+
     public Point LastPlaced => Placed.Last();
     public bool LastPlacedInAir => InAir.Contains((ushort)(Placed.Count - 1));
-
+    public bool LastPlacedIsHangable(Transform reference) => IsHangable(Placed.Count - 1, reference);
     public int InAirIndex(int index) => InAir.IndexOf((ushort)index);
+
+    public void Tighten()
+    {
+        var toRemove = new List<(int AirIdx, int PlacedIdx)>();
+        var closestGroundedIsHangable = false;
+
+        for (var i = Placed.Count - 1; i >= 0; i--)
+        {
+            var point = Placed[i];
+            var airIdx = InAirIndex(i);
+            Debug.Log(airIdx);
+            if (airIdx == -1)
+            {
+                // found grounded point
+                closestGroundedIsHangable = IsHangable(i, Target);
+                break;
+            }
+            else
+            {
+                toRemove.Add((airIdx, i));
+            }
+        }
+
+        if (closestGroundedIsHangable)
+        {
+            foreach (var (air, placed) in toRemove)
+            {
+                InAir.RemoveAt(air);
+                Placed.RemoveAt(placed);
+            }
+        }
+    }
 
     public void Place()
     {
@@ -51,6 +84,16 @@ public class Wire : MonoBehaviour
             Placed.Add(new Point { Value = Current.Value });
             InAir.Add((ushort)(Placed.Count - 1));
         }
+    }
+
+    public bool IsHangable(int index, Transform reference)
+    {
+        const float minHangDistance = 1f;
+        var point = Placed[index].Value;
+        if (InAirIndex(index) != -1 || math.abs(point.y - reference.position.y) < minHangDistance || point.y < reference.position.y)
+            return false;
+        //@todo do some check here if point is visible from target?
+        return true;
     }
 
     private void FixedUpdate()
@@ -65,7 +108,6 @@ public class Wire : MonoBehaviour
         if (!LastPlacedInAir)
         {
             var hit = Physics2D.Raycast(LastPlaced.Value, -Vector2.up, Mathf.Infinity, GroundMask);
-            Debug.Log(hit);
             if (hit.collider != null)
             {
                 if (math.abs(math.distance(hit.point, LastPlaced.Value)) > 0.15f)
@@ -83,6 +125,7 @@ public class Wire : MonoBehaviour
         {
             var index = InAir[i];
             var point = Placed[index];
+
             // higher part
             if (index < (Placed.Count - 1))
             {
@@ -90,16 +133,19 @@ public class Wire : MonoBehaviour
                 var inAirIdx = InAirIndex(index + 1);
                 if (WrapWireAroundObstacles(relative.Value, point.Value, index + 1) && inAirIdx != -1)
                 {
+                    //@todo these are not removed correctly
+
                     InAir[inAirIdx] = (ushort)Placed.IndexOf(relative);
                     InAir[i] = (ushort)Placed.IndexOf(point);
                 }
             }
             // lower part
-            else if (index > 0)
+            if (index > 0)
             {
                 var relative = Placed[index - 1];
                 if (WrapWireAroundObstacles(relative.Value, point.Value, index))
                 {
+                    //@todo these are not removed correctly
                     InAir[i] = (ushort)Placed.IndexOf(point);
                 }
             }
@@ -119,7 +165,7 @@ public class Wire : MonoBehaviour
             DebugDraw.Sphere(new float3(point, 0), 0.75f, Color.red, 5f);
             added = true;
         }
-        Debug.DrawLine(new float3(LastPlaced.Value, 1), new float3(Current.Value, 1), Color.white);
+        Debug.DrawLine(new float3(a + offset, 1), new float3(b + offset, 1), Color.blue);
         return added;
     }
 
@@ -129,18 +175,14 @@ public class Wire : MonoBehaviour
         {
             var index = InAir[i];
             var point = Placed[index];
-
-            var hit = Physics2D.Raycast(point.Value, -Vector2.up, Mathf.Infinity, GroundMask);
+            // Raycast(point.Value, -Vector2.up, Mathf.Infinity, GroundMask);
+            var hit = Physics2D.OverlapCircle(point.Value, 0.088f, GroundMask);
             var removed = false;
 
-            if (hit.collider != null)
+            if (hit != null && hit.transform.position.y < point.Value.y)
             {
-                if (math.abs(math.distance(hit.point, point.Value)) < 0.15f)
-                {
-                    InAir.RemoveAt(i);
-                    point.Value = hit.point;
-                    removed = true;
-                }
+                InAir.RemoveAt(i);
+                removed = true;
             }
 
             if (!removed)
@@ -178,11 +220,11 @@ public class Wire : MonoBehaviour
     {
         RenderWire();
 #if UNITY_EDITOR
-        DebugDraw.Sphere(new float3(LastPlaced.Value, 0), 0.35f, Color.cyan, .35f);
-        DebugDraw.Sphere(new float3(Current.Value, 0), 0.35f, Color.yellow, .35f);
-        foreach (var x in Placed)
+        DebugDraw.Sphere(new float3(LastPlaced.Value, 0), 0.15f, Color.cyan);
+        DebugDraw.Sphere(new float3(Current.Value, 0), 0.15f, Color.yellow);
+        foreach (var x in InAir)
         {
-            // DebugDraw.Circle(new float3(x.Value, 0), Vector2.right, .25f, Color.green);
+            DebugDraw.Sphere(new float3(Placed[x].Value, 0), 0.15f, Color.green);
         }
 #endif
     }

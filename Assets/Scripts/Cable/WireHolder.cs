@@ -1,13 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using NaughtyAttributes;
 using Unity.Mathematics;
 using UnityEngine;
-
-/*
-    @ if collider that grounds controller is not collider which is under handler (do raycast down)
-    then dont drop cables
-*/
 
 [RequireComponent(typeof(DistanceJoint2D), typeof(MovementController))]
 public class WireHolder : MonoBehaviour
@@ -50,13 +43,17 @@ public class WireHolder : MonoBehaviour
         {
             DistanceJoint.enabled = false;
         }
-        else if (Controller.IsFalling && !Wire.LastPlacedInAir && math.abs(Wire.LastPlaced.Value.y - transform.position.y) > 1f)
+        else if (Controller.IsFalling)
         {
-            var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy);
-            DistanceJoint.distance = distance;
-            DistanceJoint.maxDistanceOnly = true;
-            DistanceJoint.connectedAnchor = Wire.LastPlaced.Value;
-            DistanceJoint.enabled = true;
+            Wire.Tighten();
+            if (Wire.LastPlacedIsHangable(transform))
+            {
+                var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy);
+                DistanceJoint.distance = distance;
+                DistanceJoint.maxDistanceOnly = true;
+                DistanceJoint.connectedAnchor = Wire.LastPlaced.Value;
+                DistanceJoint.enabled = true;
+            }
         }
     }
 
