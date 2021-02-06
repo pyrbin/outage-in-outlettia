@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SetAnimationType : MonoBehaviour
 {
+    public bool SwitchOnInteract = false;
+
     [SerializeField] private AnimatorOverrideController[] overrideControllers;
     [SerializeField] private InputReader inputReader;
     private int index = 0;
@@ -14,7 +16,10 @@ public class SetAnimationType : MonoBehaviour
     public void Start()
     {
         TryGetComponent<Animator>(out animator);
-        inputReader.InteractEvent += Set;
+        inputReader.InteractEvent += () =>
+        {
+            if (SwitchOnInteract) Set();
+        };
         SetAnimations(overrideControllers[index]);
     }
 

@@ -34,6 +34,11 @@ public class Wire : MonoBehaviour
 
     private float Length = 0f;
 
+    private void Freeze()
+    {
+        this.enabled = false;
+    }
+
     public void Start()
     {
         TryGetComponent(out LineRenderer);
@@ -48,7 +53,10 @@ public class Wire : MonoBehaviour
     }
 
     public Point Current => new Point { Value = ((float3)Target.position).xy };
+
     public Point LastPlaced => Placed.Last();
+    public Point SecondLastPlaced => Placed[Placed.Count - 2];
+
     public bool LastPlacedInAir => InAir.Contains(LastPlaced);
     private Point lastPlacedTemp;
     public bool LastPlacedIsHangable(Transform reference) => IsHangable(Placed.Count - 1, reference);
@@ -85,6 +93,16 @@ public class Wire : MonoBehaviour
                 Placed.RemoveAt(placed);
             }
         }
+    }
+
+    public void RemoveLast()
+    {
+        var idx = InAirIndex(LastPlaced);
+        if (idx != -1)
+        {
+            InAir.RemoveAt(idx);
+        }
+        Placed.RemoveAt(Placed.Count - 1);
     }
 
     public void Place()
@@ -221,7 +239,7 @@ public class Wire : MonoBehaviour
 
     private bool NotTooSimilarToLast(float2 point)
     {
-        return math.abs(math.distance(LastPlaced.Value, point)) > 0.05f;
+        return math.abs(math.distance(LastPlaced.Value, point)) > 0.15f;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
