@@ -5,6 +5,7 @@ public class PlayerInput : MonoBehaviour
 {
     private WireHolder WireHolder;
     private MovementController Movement;
+    private Interactor Interactor;
 
     [SerializeField]
     private InputReader InputReader;
@@ -13,10 +14,16 @@ public class PlayerInput : MonoBehaviour
     {
         TryGetComponent(out WireHolder);
         TryGetComponent(out Movement);
+        TryGetComponent(out Interactor);
 
         InputReader.MoveEvent += (float dir) =>
         {
             Movement.Direction = dir;
+        };
+
+        InputReader.InteractEvent += () =>
+        {
+            Interactor.InteractNearest();
         };
 
         InputReader.JumpEvent += () =>
