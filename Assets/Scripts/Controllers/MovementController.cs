@@ -11,7 +11,6 @@ public class MovementController : MonoBehaviour
     public float MaxSpeed = 5f;
     public float Acceleration = 15f;
     public float Deacceleration = 20f;
-    public float MaxSpeedPoint = 2f;
 
     public float Direction
     {
