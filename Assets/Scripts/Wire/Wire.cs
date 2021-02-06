@@ -48,13 +48,14 @@ public class Wire : MonoBehaviour
     }
 
     public Point Current => new Point { Value = ((float3)Target.position).xy };
-
     public Point LastPlaced => Placed.Last();
     public bool LastPlacedInAir => InAir.Contains(LastPlaced);
     private Point lastPlacedTemp;
-
     public bool LastPlacedIsHangable(Transform reference) => IsHangable(Placed.Count - 1, reference);
     public int InAirIndex(Point point) => InAir.IndexOf(point);
+
+    public float TotalLength => Length + DragLength;
+    public float DragLength => math.abs(math.distance(LastPlaced.Value, Current.Value));
 
     public void Tighten()
     {
@@ -111,11 +112,6 @@ public class Wire : MonoBehaviour
     {
         var point = Placed[index];
         return point.Value.y > reference.position.y && IsViableHangPivot(index, reference);
-    }
-
-    private bool NotTooSimilarToLast(float2 point)
-    {
-        return math.abs(math.distance(LastPlaced.Value, point)) > 0.05f;
     }
 
 
@@ -221,6 +217,11 @@ public class Wire : MonoBehaviour
 
             //Placed[index] = point;
         }
+    }
+
+    private bool NotTooSimilarToLast(float2 point)
+    {
+        return math.abs(math.distance(LastPlaced.Value, point)) > 0.05f;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

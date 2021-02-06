@@ -57,6 +57,22 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Retract"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9c2a4ca-7820-4cbd-9712-6bf1504c9de4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""UsePower"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae091407-109f-40f2-be13-2b0f064a55e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -136,6 +152,28 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49f24d94-184d-4685-9413-7b24f3e78c65"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Retract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6726873b-31bd-4806-bdcb-45740d2a9cfb"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UsePower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -149,6 +187,8 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Hold = m_Gameplay.FindAction("Hold", throwIfNotFound: true);
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
+        m_Gameplay_Retract = m_Gameplay.FindAction("Retract", throwIfNotFound: true);
+        m_Gameplay_UsePower = m_Gameplay.FindAction("UsePower", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -203,6 +243,8 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Hold;
     private readonly InputAction m_Gameplay_Interact;
+    private readonly InputAction m_Gameplay_Retract;
+    private readonly InputAction m_Gameplay_UsePower;
     public struct GameplayActions
     {
         private @GameInput m_Wrapper;
@@ -212,6 +254,8 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Hold => m_Wrapper.m_Gameplay_Hold;
         public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
+        public InputAction @Retract => m_Wrapper.m_Gameplay_Retract;
+        public InputAction @UsePower => m_Wrapper.m_Gameplay_UsePower;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -236,6 +280,12 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
+                @Retract.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRetract;
+                @Retract.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRetract;
+                @Retract.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRetract;
+                @UsePower.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUsePower;
+                @UsePower.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUsePower;
+                @UsePower.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUsePower;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -255,6 +305,12 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Retract.started += instance.OnRetract;
+                @Retract.performed += instance.OnRetract;
+                @Retract.canceled += instance.OnRetract;
+                @UsePower.started += instance.OnUsePower;
+                @UsePower.performed += instance.OnUsePower;
+                @UsePower.canceled += instance.OnUsePower;
             }
         }
     }
@@ -266,5 +322,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnRetract(InputAction.CallbackContext context);
+        void OnUsePower(InputAction.CallbackContext context);
     }
 }

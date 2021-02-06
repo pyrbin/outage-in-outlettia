@@ -21,12 +21,24 @@ public class PlayerInput : MonoBehaviour
 
         InputReader.JumpEvent += () =>
         {
-            Movement.Jump();
+            if (!WireHolder.IsHanging)
+                Movement.Jump();
         };
 
         InputReader.HoldEvent += () =>
         {
             WireHolder.ToggleHold();
+        };
+
+        InputReader.RetractEvent += () =>
+        {
+            if (WireHolder.IsHanging)
+                WireHolder.ToggleRetract();
+        };
+
+        InputReader.UsePowerEvent += () =>
+        {
+            Movement.Boost();
         };
     }
 
