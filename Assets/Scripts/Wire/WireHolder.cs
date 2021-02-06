@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(DistanceJoint2D), typeof(MovementController))]
 public class WireHolder : MonoBehaviour
@@ -31,6 +32,8 @@ public class WireHolder : MonoBehaviour
 
     public bool IsHanging => AttachedToWire;
     public bool AttachedToWire => DistanceJoint.enabled;
+
+    public UnityAction<Checkpoint> NewCheckpoint = delegate { };
 
     public void ToggleRecordingDistance() => recordTravel = !recordTravel;
 

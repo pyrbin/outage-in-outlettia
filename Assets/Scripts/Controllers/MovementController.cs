@@ -11,7 +11,8 @@ public class MovementController : MonoBehaviour
     public float MaxSpeed = 5f;
     public float Acceleration = 15f;
     public float Deacceleration = 20f;
-    public float MaxSpeedPoint = 2f;
+    public float BoostPower = 1f;
+    public float SwingForce = 1f;
 
     public float Direction
     {
@@ -23,6 +24,7 @@ public class MovementController : MonoBehaviour
     private ContactFilter2D ContactFilter;
     private WireHolder wireHolder;
     private float movementDirection;
+
 
     [Header("Debugging")]
     public bool DrawGizmos = true;
@@ -58,7 +60,7 @@ public class MovementController : MonoBehaviour
             Vector2 direction = new Vector2(wireHolder.Wire.LastPlaced.Value.x - transform.position.x, wireHolder.Wire.LastPlaced.Value.y - transform.position.y);
             Vector3 perp = Vector2.Perpendicular(direction) * movementDirection * -1;
             perp.Normalize();
-            rbody.AddForce(perp, ForceMode2D.Force);
+            rbody.AddForce(perp * SwingForce, ForceMode2D.Force);
 
 #if UNITY_EDITOR
             if (DrawGizmos)
@@ -91,10 +93,6 @@ public class MovementController : MonoBehaviour
 
         if (wireHolder.AttachedToWire)
         {
-            WireMovement();
-            Vector2 direction = new Vector2(wireHolder.Wire.LastPlaced.Value.x - transform.position.x, wireHolder.Wire.LastPlaced.Value.y - transform.position.y);
-            rbody.AddForce(direction, ForceMode2D.Impulse);
-
         }
         else
         {
@@ -104,6 +102,12 @@ public class MovementController : MonoBehaviour
                 OnJump.Invoke();
             }
         }
+    }
+
+    public void Boost()
+    {
+        if (wireHolder.AttachedToWire)
+            rbody.AddForce((rbody.velocity / rbody.velocity.magnitude) * BoostPower, ForceMode2D.Impulse);
     }
 
     private void Accelerate()

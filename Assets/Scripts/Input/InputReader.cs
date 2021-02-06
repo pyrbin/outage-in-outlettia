@@ -13,6 +13,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
     public event UnityAction HoldEvent = delegate { };
     public event UnityAction InteractEvent = delegate { };
     public event UnityAction RetractEvent = delegate { };
+    public event UnityAction UsePowerEvent = delegate { };
 
     private GameInput GameInput;
 
@@ -75,5 +76,11 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
     {
         if (context.phase == InputActionPhase.Performed)
             RetractEvent.Invoke();
+    }
+
+    public void OnUsePower(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            UsePowerEvent.Invoke();
     }
 }
