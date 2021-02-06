@@ -76,7 +76,6 @@ public class WireHolder : MonoBehaviour
                 var hit = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, Wire.GroundMask);
                 if (hit)
                 {
-                    Debug.DrawLine(transform.position, new float3(hit.point, 0), Color.red);
                     isOnEdge = math.abs(math.distance(hit.point.y, transform.position.y)) > Height;
                 }
             }

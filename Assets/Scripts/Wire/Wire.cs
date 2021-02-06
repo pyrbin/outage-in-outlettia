@@ -61,12 +61,10 @@ public class Wire : MonoBehaviour
         {
             var point = Placed[i];
             var airIdx = InAirIndex(point);
-            Debug.Log(i);
             if (airIdx == -1)
             {
                 // found grounded point
                 closestGroundedIsHangable = IsHangable(i, Target);
-                Debug.Log(closestGroundedIsHangable);
                 break;
             }
             else
@@ -177,10 +175,14 @@ public class Wire : MonoBehaviour
         {
             var point = Physics2DUtility.GetClosestPointFromRaycastHit(hit, polygon);
             Placed.Insert(insertAt, new Point { Value = point });
-            DebugDraw.Sphere(new float3(point, 0), 0.15f, Color.red, 3f);
+            if (DrawGizmos)
+                DebugDraw.Sphere(new float3(point, 0), 0.15f, Color.red, 3f);
             added = true;
         }
-        Debug.DrawLine(new float3(a + offset, 1), new float3(b + offset, 1), Color.blue);
+        if (DrawGizmos)
+        {
+            Debug.DrawLine(new float3(a + offset, 1), new float3(b + offset, 1), Color.blue);
+        }
         return added;
     }
 
@@ -234,11 +236,14 @@ public class Wire : MonoBehaviour
     {
         RenderWire();
 #if UNITY_EDITOR
-        DebugDraw.Sphere(new float3(LastPlaced.Value, 0), 0.15f, Color.cyan);
-        DebugDraw.Sphere(new float3(Current.Value, 0), 0.15f, Color.yellow);
-        foreach (var x in InAir)
+        if (DrawGizmos)
         {
-            DebugDraw.Sphere(new float3(x.Value, 0), 0.15f, Color.green);
+            DebugDraw.Sphere(new float3(LastPlaced.Value, 0), 0.15f, Color.cyan);
+            DebugDraw.Sphere(new float3(Current.Value, 0), 0.15f, Color.yellow);
+            foreach (var x in InAir)
+            {
+                DebugDraw.Sphere(new float3(x.Value, 0), 0.15f, Color.green);
+            }
         }
 #endif
     }
