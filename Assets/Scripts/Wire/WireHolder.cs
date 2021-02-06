@@ -27,6 +27,7 @@ public class WireHolder : MonoBehaviour
     private bool retracting = false;
     private float distanceX = 0;
     private float3 previousPosition = float3.zero;
+    private Wire.Point originHangPoint;
 
     public bool IsHanging => AttachedToWire;
     public bool AttachedToWire => DistanceJoint.enabled;
@@ -76,6 +77,7 @@ public class WireHolder : MonoBehaviour
 
     void EnableHanging()
     {
+        originHangPoint = Wire.LastPlaced;
         retracting = false;
         Wire.LastPointUpdated += UpdateAttachedPoint;
         SyncDistanceJointWithWirePoint();
@@ -120,11 +122,32 @@ public class WireHolder : MonoBehaviour
             }
         }
 
+        // Hanging state
+        UpdateWhenHanging();
         // Retracting state
         UpdateRetractWire();
 
         // Place wire points state
         UpdateWirePlacement();
+    }
+
+    public void UpdateWhenHanging()
+    {
+        if (!IsHanging) return;
+        if (Wire.LastPlaced != originHangPoint)
+        {
+            if (PointIsInSight(Wire.LastPlaced.Value) && PointIsInSight(Wire.SecondLastPlaced.Value))
+            {
+                Wire.RemoveLast();
+            }
+        }
+    }
+
+    public bool PointIsInSight(float2 point)
+    {
+        var direction = math.normalize(point - ((float3)transform.position).xy);
+        var distance = math.distance(point, ((float3)transform.position).xy) - 0.15f;
+        return !Physics2D.Raycast(transform.position, direction, distance, Wire.GroundMask);
     }
 
     public void UpdateRetractWire()
