@@ -540,8 +540,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wire: {fileID: 1535538783}
   PlaceDistance: 1.5
-  Height: 1
+  RetractSpeed: 2
   ShouldPlace: 1
+  PlaceAfterHangingCooldown: 0.8
+  Height: 1
 --- !u!114 &554268979
 MonoBehaviour:
   m_ObjectHideFlags: 0

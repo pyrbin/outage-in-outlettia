@@ -12,6 +12,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
     public event UnityAction JumpEvent = delegate { };
     public event UnityAction HoldEvent = delegate { };
     public event UnityAction InteractEvent = delegate { };
+    public event UnityAction RetractEvent = delegate { };
 
     private GameInput GameInput;
 
@@ -70,4 +71,9 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
             InteractEvent.Invoke();
     }
 
+    public void OnRetract(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            RetractEvent.Invoke();
+    }
 }
