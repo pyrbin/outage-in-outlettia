@@ -15,6 +15,7 @@ public class WireHolder : MonoBehaviour
     private DistanceJoint2D DistanceJoint;
 
     private bool recordTravel = true;
+    private bool tryingToHold = false;
     private float distanceX = 0;
     private float3 previousPosition = float3.zero;
 
@@ -32,25 +33,26 @@ public class WireHolder : MonoBehaviour
 
     public void ToggleHold()
     {
+        if (!AttachedToWire && !tryingToHold)
+        {
+            Wire.Tighten();
+            tryingToHold = true;
+            return;
+        }
+
         if (AttachedToWire)
         {
             DistanceJoint.enabled = false;
             Wire.LastPointUpdated -= UpdateAttachedPoint;
         }
-        // set attached
-        else if (Controller.IsFalling)
+
+        if (tryingToHold)
         {
-            Wire.Tighten();
-            if (Wire.LastPlacedIsHangable(transform))
-            {
-                Wire.LastPointUpdated += UpdateAttachedPoint;
-                SyncDistanceJoinWithWirePoint();
-                DistanceJoint.enabled = true;
-            }
+            tryingToHold = false;
         }
     }
 
-    void SyncDistanceJoinWithWirePoint()
+    void SyncDistanceJointWithWirePoint()
     {
         var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy);
         DistanceJoint.distance = distance;
@@ -61,6 +63,17 @@ public class WireHolder : MonoBehaviour
     void FixedUpdate()
     {
         if (!ShouldPlace) return;
+
+        if (tryingToHold)
+        {
+            if (Wire.LastPlacedIsHangable(transform))
+            {
+                Wire.LastPointUpdated += UpdateAttachedPoint;
+                SyncDistanceJointWithWirePoint();
+                DistanceJoint.enabled = true;
+                tryingToHold = false;
+            }
+        }
 
         // State Normal
         if (!AttachedToWire)
@@ -82,23 +95,11 @@ public class WireHolder : MonoBehaviour
                     DetermineIfDropWire();
             }
         }
-        // State Attached
-        else if (AttachedToWire)
-        {
-            var direction = math.normalize(Wire.LastPlaced.Value - ((float3)transform.position).xy);
-            var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy);
-            var hit = Physics2D.Raycast(transform.position, direction, distance, Wire.GroundMask);
-            if (hit)
-            {
-                Wire.AddPointToBack(new Wire.Point { Value = hit.point });
-            }
-        }
-
     }
 
     void UpdateAttachedPoint(Wire.Point point)
     {
-        SyncDistanceJoinWithWirePoint();
+        SyncDistanceJointWithWirePoint();
     }
 
     void DetermineIfDropWire()

@@ -7,13 +7,15 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer), typeof(EdgeCollider2D))]
 public class Wire : MonoBehaviour
 {
+    [Header("Settings")]
     public Transform Origin;
     public Transform Target;
 
-    [NaughtyAttributes.Label("Ground")]
+    [NaughtyAttributes.Label("Ground Layer")]
     public LayerMask GroundMask;
 
     public float Width = 0.15f;
+    public float Gravity = -4.35f;
 
     public event Action<Point> LastPointUpdated;
 
@@ -29,7 +31,6 @@ public class Wire : MonoBehaviour
     private ContactPoint2D[] ContactPoints;
 
     private float Length = 0f;
-    private const float Gravity = -4.35f;
 
     public void Start()
     {
@@ -56,7 +57,7 @@ public class Wire : MonoBehaviour
     public void Tighten()
     {
         var toRemove = new List<(int AirIdx, int PlacedIdx)>();
-        var closestGroundedIsHangable = false;
+        var isViablePivot = false;
         for (var i = Placed.Count - 1; i >= 0; i--)
         {
             var point = Placed[i];
@@ -64,7 +65,7 @@ public class Wire : MonoBehaviour
             if (airIdx == -1)
             {
                 // found grounded point
-                closestGroundedIsHangable = IsHangable(i, Target);
+                isViablePivot = IsViableHangPivot(i, Target);
                 break;
             }
             else
@@ -73,7 +74,7 @@ public class Wire : MonoBehaviour
             }
         }
 
-        if (closestGroundedIsHangable)
+        if (isViablePivot)
         {
             foreach (var (air, placed) in toRemove)
             {
@@ -99,16 +100,31 @@ public class Wire : MonoBehaviour
         Placed.Add(point);
     }
 
-    public bool IsHangable(int index, Transform reference)
+    public bool IsViableHangPivot(int index, Transform reference)
     {
         const float minHangDistance = 1f;
         var point = Placed[index];
         if (InAirIndex(point) != -1
-            || math.abs(point.Value.y - reference.position.y) < minHangDistance
-            || point.Value.y < reference.position.y)
+            || math.abs(point.Value.y - reference.position.y) < minHangDistance)
             return false;
-        //@todo do some check here if point is visible from target?
         return true;
+    }
+
+    public bool IsHangable(int index, Transform reference)
+    {
+        var point = Placed[index];
+        return point.Value.y > reference.position.y && IsViableHangPivot(index, reference);
+    }
+
+    private void TargetToLastRaycastCheck()
+    {
+        var direction = math.normalize(LastPlaced.Value - ((float3)Target.position).xy);
+        var distance = math.distance(LastPlaced.Value, ((float3)Target.position).xy);
+        var hit = Physics2D.Raycast(Target.position, direction, distance, GroundMask);
+        if (hit)
+        {
+            AddPointToBack(new Point { Value = hit.point });
+        }
     }
 
     private void FixedUpdate()
@@ -117,8 +133,6 @@ public class Wire : MonoBehaviour
         UpdatePointsInAir();
 
         CheckWrapForInAir();
-
-        WrapWireAroundObstacles(LastPlaced.Value, Current.Value, Placed.Count);
 
         // Tries to make sure we aint gettin no floaties
         // maybe not needed anymore but too scared to remove XD
@@ -133,6 +147,12 @@ public class Wire : MonoBehaviour
                 }
             }
         }
+
+        WrapWireAroundObstacles(LastPlaced.Value, Current.Value, Placed.Count);
+
+        //@todo uncomment for corner wrapping
+        // not working 100% atm
+        // TargetToLastRaycastCheck();
 
         if (lastPlacedTemp != LastPlaced)
         {
