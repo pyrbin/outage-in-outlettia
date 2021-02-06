@@ -80,7 +80,7 @@ MonoBehaviour:
   SocketIn: {fileID: 2128101309339604622}
   SocketOut: {fileID: 2128101309118820527}
   wirePrefab: {fileID: 44729960661110550, guid: 191507bf535e04d4b9364f3e522a97c5, type: 3}
-  TakenSprite: {fileID: 0}
+  TakenSprite: {fileID: 21300000, guid: d1a44432e20d49447a6b7f3a83300adf, type: 3}
   MaxLength: 5
 --- !u!212 &2128101309282847892
 SpriteRenderer:
