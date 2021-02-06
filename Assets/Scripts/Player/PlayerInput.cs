@@ -35,6 +35,11 @@ public class PlayerInput : MonoBehaviour
             if (WireHolder.IsHanging)
                 WireHolder.ToggleRetract();
         };
+
+        InputReader.UsePowerEvent += () =>
+        {
+            Movement.Boost();
+        };
     }
 
     // Update is called once per frame
