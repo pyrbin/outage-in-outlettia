@@ -17,6 +17,8 @@ public class Wire : MonoBehaviour
     public float Width = 0.15f;
     public float Gravity = -4.35f;
 
+    public bool WrapAroundCorners = true;
+
     public event Action<Point> LastPointUpdated;
 
     [Header("Debugging")]
@@ -95,11 +97,6 @@ public class Wire : MonoBehaviour
         }
     }
 
-    public void AddPointToBack(Point point)
-    {
-        Placed.Add(point);
-    }
-
     public bool IsViableHangPivot(int index, Transform reference)
     {
         const float minHangDistance = 1f;
@@ -116,14 +113,20 @@ public class Wire : MonoBehaviour
         return point.Value.y > reference.position.y && IsViableHangPivot(index, reference);
     }
 
+    private bool NotTooSimilarToLast(float2 point)
+    {
+        return math.abs(math.distance(LastPlaced.Value, point)) > 0.05f;
+    }
+
+
     private void TargetToLastRaycastCheck()
     {
         var direction = math.normalize(LastPlaced.Value - ((float3)Target.position).xy);
         var distance = math.distance(LastPlaced.Value, ((float3)Target.position).xy);
         var hit = Physics2D.Raycast(Target.position, direction, distance, GroundMask);
-        if (hit)
+        if (hit && NotTooSimilarToLast(hit.point))
         {
-            AddPointToBack(new Point { Value = hit.point });
+            Placed.Add(new Point { Value = hit.point });
         }
     }
 
@@ -134,25 +137,12 @@ public class Wire : MonoBehaviour
 
         CheckWrapForInAir();
 
-        // Tries to make sure we aint gettin no floaties
-        // maybe not needed anymore but too scared to remove XD
-        if (!LastPlacedInAir)
-        {
-            var hit = Physics2D.Raycast(LastPlaced.Value, -Vector2.up, Mathf.Infinity, GroundMask);
-            if (hit.collider != null)
-            {
-                if (math.abs(math.distance(hit.point, LastPlaced.Value)) > 0.15f)
-                {
-                    InAir.Add(LastPlaced);
-                }
-            }
-        }
-
         WrapWireAroundObstacles(LastPlaced.Value, Current.Value, Placed.Count);
 
         //@todo uncomment for corner wrapping
         // not working 100% atm
-        // TargetToLastRaycastCheck();
+        if (WrapAroundCorners)
+            TargetToLastRaycastCheck();
 
         if (lastPlacedTemp != LastPlaced)
         {
@@ -194,10 +184,13 @@ public class Wire : MonoBehaviour
         if (hit && hit.collider is PolygonCollider2D polygon)
         {
             var point = Physics2DUtility.GetClosestPointFromRaycastHit(hit, polygon);
-            Placed.Insert(insertAt, new Point { Value = point });
-            if (DrawGizmos)
-                DebugDraw.Sphere(new float3(point, 0), 0.15f, Color.red, 3f);
-            added = true;
+            if (NotTooSimilarToLast(point))
+            {
+                Placed.Insert(insertAt, new Point { Value = point });
+                if (DrawGizmos)
+                    DebugDraw.Sphere(new float3(point, 0), 0.15f, Color.red, 3f);
+                added = true;
+            }
         }
         if (DrawGizmos)
         {
@@ -212,7 +205,7 @@ public class Wire : MonoBehaviour
         {
             var point = InAir[i];
             // Raycast(point.Value, -Vector2.up, Mathf.Infinity, GroundMask);
-            var hit = Physics2D.OverlapCircle(point.Value, 0.088f, GroundMask);
+            var hit = Physics2D.OverlapCircle(point.Value, 0.1f, GroundMask);
             var removed = false;
 
             if (hit != null && hit.transform.position.y < point.Value.y)
@@ -267,7 +260,6 @@ public class Wire : MonoBehaviour
         }
 #endif
     }
-
 
     public void RenderWire()
     {

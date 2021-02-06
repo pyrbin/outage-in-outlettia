@@ -10,6 +10,7 @@ public class WireHolder : MonoBehaviour
     public float PlaceDistance = 1f;
     public float Height = 1f;
     public bool ShouldPlace = true;
+    public float PlaceAfterHangingCooldown = 0.8f;
 
     private MovementController Controller;
     private DistanceJoint2D DistanceJoint;
@@ -19,6 +20,7 @@ public class WireHolder : MonoBehaviour
     private float distanceX = 0;
     private float3 previousPosition = float3.zero;
 
+    public bool IsHanging => AttachedToWire;
     public bool AttachedToWire => DistanceJoint.enabled;
 
     public void ToggleRecordingDistance() => recordTravel = !recordTravel;
@@ -44,12 +46,22 @@ public class WireHolder : MonoBehaviour
         {
             DistanceJoint.enabled = false;
             Wire.LastPointUpdated -= UpdateAttachedPoint;
+            if (ShouldPlace)
+            {
+                ShouldPlace = false;
+                Invoke("EnableShouldPlace", PlaceAfterHangingCooldown);
+            }
         }
 
         if (tryingToHold)
         {
             tryingToHold = false;
         }
+    }
+
+    void EnableShouldPlace()
+    {
+        ShouldPlace = true;
     }
 
     void SyncDistanceJointWithWirePoint()
