@@ -69,7 +69,9 @@ public class Wire : MonoBehaviour
     public float TotalLength => round.d2(Length + DragLength);
     public float DragLength => round.d2(math.abs(math.distance(LastPlaced.Value, Current.Value)));
     public float AllowedDragLength => round.d2(MaxLength - Length);
+
     public bool AtMaxLength => TotalLength >= MaxLength;
+    public bool WentAboveMaxLength => TotalLength > MaxLength;
 
     public void Tighten()
     {
@@ -175,7 +177,7 @@ public class Wire : MonoBehaviour
             LastPointUpdated?.Invoke(lastPlacedTemp);
         }
 
-        if (AtMaxLength)
+        if (WentAboveMaxLength)
         {
             ReachedMaxLength?.Invoke();
         }
