@@ -12,10 +12,15 @@ public class MovementController : MonoBehaviour
     public float Acceleration = 15f;
     public float Deacceleration = 20f;
 
-    [SerializeField] private InputReader inputReader;
+    public float Direction
+    {
+        get => movementDirection;
+        set => movementDirection = value;
+    }
+
     private Rigidbody2D rbody;
-    private float movementDirection;
     private ContactFilter2D ContactFilter;
+    private float movementDirection;
 
     void Start()
     {
@@ -25,11 +30,7 @@ public class MovementController : MonoBehaviour
         ContactFilter.useNormalAngle = true;
         ContactFilter.minNormalAngle = 90f;
         ContactFilter.maxNormalAngle = 90f;
-
-        inputReader.MoveEvent += (float dir) => movementDirection = dir;
-        inputReader.JumpEvent += Jump;
     }
-
 
     void FixedUpdate()
     {
@@ -52,7 +53,7 @@ public class MovementController : MonoBehaviour
     public Vector2 MovingDirection => new Vector2(movementDirection, 0);
     public UnityAction OnJump = delegate { };
 
-    void Jump()
+    public void Jump()
     {
         if (Mathf.Abs(rbody.velocity.y) < 0.001f)
         {
