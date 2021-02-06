@@ -35,6 +35,8 @@ public class WireHolder : MonoBehaviour
 
     public UnityAction<Checkpoint> NewCheckpoint = delegate { };
 
+    public UnityAction WireReachedMaxLength = delegate { };
+
     public void ToggleRecordingDistance() => recordTravel = !recordTravel;
 
     public void ToggleHold()
@@ -71,6 +73,32 @@ public class WireHolder : MonoBehaviour
         TryGetComponent(out Controller);
 
         DistanceJoint.enabled = false;
+        SetWire(wire: Wire);
+    }
+
+    void SetWire(Wire wire)
+    {
+        if (wire != Wire && Wire)
+        {
+            Wire.ReachedMaxLength -= OnWireReachedMaxLength;
+        }
+
+        Wire = wire;
+        Wire.ReachedMaxLength += OnWireReachedMaxLength;
+    }
+
+    void OnWireReachedMaxLength()
+    {
+        WireReachedMaxLength?.Invoke();
+        if (!AttachedToWire || !tryingToHold)
+        {
+            if (Controller.IsFalling)
+                ToggleHold();
+            else
+            {
+                Controller.Stop();
+            }
+        }
     }
 
     void EnableShouldPlace()
@@ -90,6 +118,7 @@ public class WireHolder : MonoBehaviour
 
     void DisableHanging()
     {
+        if (Wire.AtMaxLength) return;
         DistanceJoint.enabled = false;
         tryingToHold = false;
         retracting = false;
@@ -109,6 +138,8 @@ public class WireHolder : MonoBehaviour
 
     void SetJointDistance(float distance)
     {
+        // Clamp length
+        distance = math.min(Wire.AllowedDragLength, distance);
         DistanceJoint.distance = distance;
         DistanceJoint.maxDistanceOnly = true;
         DistanceJoint.connectedAnchor = Wire.LastPlaced.Value;
@@ -137,7 +168,7 @@ public class WireHolder : MonoBehaviour
     public void UpdateWhenHanging()
     {
         if (!IsHanging) return;
-        if (Wire.LastPlaced != originHangPoint)
+        if (Wire.LastPlacedIndex != 0 && Wire.IsHangable(Wire.LastPlacedIndex - 1, transform))
         {
             if (PointIsInSight(Wire.LastPlaced.Value) && PointIsInSight(Wire.SecondLastPlaced.Value))
             {

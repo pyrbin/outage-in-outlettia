@@ -152,11 +152,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423426377472385846, guid: d4a2a52dc519d5c47918b8e3373d3f4c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.2
+      value: -19.37
       objectReference: {fileID: 0}
     - target: {fileID: 423426377472385846, guid: d4a2a52dc519d5c47918b8e3373d3f4c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.78
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 423426377472385846, guid: d4a2a52dc519d5c47918b8e3373d3f4c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -629,7 +629,8 @@ MonoBehaviour:
   MaxSpeed: 5
   Acceleration: 15
   Deacceleration: 20
-  MaxSpeedPoint: 2
+  BoostPower: 1
+  SwingForce: 1
   DrawGizmos: 1
 --- !u!232 &554268980
 DistanceJoint2D:
@@ -821,7 +822,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065092519}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 0.7, z: -0.57850814}
+  m_LocalPosition: {x: -18.16, y: -0.36, z: -0.57850814}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1406,6 +1407,7 @@ MonoBehaviour:
     m_Bits: 1
   Width: 0.08
   Gravity: -4
+  MaxLength: 6
   WrapAroundCorners: 1
   DrawGizmos: 1
 --- !u!1 &1954355594 stripped
@@ -1442,6 +1444,22 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1954355604}
+    - target: {fileID: 1329320579041052409, guid: a70718c11a8747e46b2ee373d1aef7d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.576265
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329320579041052409, guid: a70718c11a8747e46b2ee373d1aef7d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.09551461
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329320579827925642, guid: a70718c11a8747e46b2ee373d1aef7d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.576265
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329320579827925642, guid: a70718c11a8747e46b2ee373d1aef7d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.09551461
+      objectReference: {fileID: 0}
     - target: {fileID: 1329320580059997118, guid: a70718c11a8747e46b2ee373d1aef7d4, type: 3}
       propertyPath: m_RootOrder
       value: 0
