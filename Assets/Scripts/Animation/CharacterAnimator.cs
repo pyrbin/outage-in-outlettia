@@ -5,20 +5,21 @@ using UnityEngine;
 public class CharacterAnimator : MonoBehaviour
 {
 
-    Animator animator;
+    public Animator faceAnimator;
+    public Animator bodyAnimator;
     MovementController movementController;
 
     // Start is called before the first frame update
     void Start()
     {
-        TryGetComponent<Animator>(out animator);
         TryGetComponent<MovementController>(out movementController);
     }
 
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("IsGrounded", movementController.IsGrounded);
-        animator.SetBool("IsMoving", movementController.IsMovingSideways);
+        bodyAnimator.SetBool("IsGrounded", movementController.IsGrounded);
+        bodyAnimator.SetBool("IsMoving", movementController.IsMovingSideways);
+        faceAnimator.SetBool("IsMoving", movementController.IsAcceleratingSideways);
     }
 }
