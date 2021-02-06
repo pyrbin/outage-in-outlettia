@@ -45,7 +45,9 @@ public class MovementController : MonoBehaviour
 
     public bool IsGrounded => rbody.IsTouching(ContactFilter);
 
-    public bool IsFalling => rbody.velocity.y < 0 && !IsGrounded;
+    public bool IsFalling => rbody.velocity.y <= 0 && !IsGrounded;
+
+    public float2 Velocity => rbody.velocity;
 
     public Vector2 MovingDirection => new Vector2(movementDirection, 0);
     public UnityAction OnJump = delegate { };
