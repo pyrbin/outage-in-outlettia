@@ -7,6 +7,13 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovementController : MonoBehaviour
 {
+
+    public enum MovementState
+    {
+        Frozen,
+        Free
+    }
+
     public float JumpForce = 7f;
     public float MaxSpeed = 5f;
     public float Acceleration = 15f;
@@ -22,17 +29,20 @@ public class MovementController : MonoBehaviour
 
     private Rigidbody2D rbody;
     private ContactFilter2D ContactFilter;
-    private WireHolder wireHolder;
+    public WireHolder wireHolder;
     private float movementDirection;
 
+    public MovementState state = MovementState.Free;
 
     [Header("Debugging")]
     public bool DrawGizmos = true;
 
-    void Start()
+    void Awake()
     {
         TryGetComponent<Rigidbody2D>(out rbody);
         TryGetComponent<WireHolder>(out wireHolder);
+
+        wireHolder.CheckpointUsed += (Checkpoint checkpoint) => CheckpointUsed(checkpoint);
 
         // Should only check ground contact
         ContactFilter.useNormalAngle = true;
@@ -56,13 +66,20 @@ public class MovementController : MonoBehaviour
         {
             WireMovement();
         }
-        else
+        else if (state != MovementState.Frozen)
         {
             if (wireHolder.Wire && wireHolder.Wire.AtMaxLength)
                 return;
             Deaccalerate();
             Accelerate();
         }
+    }
+
+    private void CheckpointUsed(Checkpoint checkpoint)
+    {
+        Stop();
+        state = MovementState.Frozen;
+        checkpoint.OnSuccess += () => state = MovementState.Free;
     }
 
     private void WireMovement()
