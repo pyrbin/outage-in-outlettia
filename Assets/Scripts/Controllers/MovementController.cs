@@ -39,8 +39,8 @@ public class MovementController : MonoBehaviour
     }
 
     // Returns true if the rigidbody has any velocity on the x-axis
-    public bool IsMovingSideways => math.abs(rbody.velocity.x) <= 0;
 
+    public bool IsMovingSideways => math.abs(rbody.velocity.x) > 0;
     // Returns true while the player is inputting left or right
     public bool IsAcceleratingSideways => movementDirection != 0;
 
