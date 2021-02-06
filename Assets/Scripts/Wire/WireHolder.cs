@@ -9,9 +9,7 @@ public class WireHolder : MonoBehaviour
     public Wire Wire;
     public float PlaceDistance = 1f;
     public float Height = 1f;
-
-    [SerializeField]
-    private InputReader InputReader;
+    public bool ShouldPlace = true;
 
     private MovementController Controller;
     private DistanceJoint2D DistanceJoint;
@@ -22,22 +20,17 @@ public class WireHolder : MonoBehaviour
 
     public bool AttachedToWire => DistanceJoint.enabled;
 
-    void ToggleRecordingDistance() => recordTravel = !recordTravel;
+    public void ToggleRecordingDistance() => recordTravel = !recordTravel;
 
-    public void Start()
+    private void Start()
     {
         TryGetComponent(out DistanceJoint);
         TryGetComponent(out Controller);
 
         DistanceJoint.enabled = false;
-        InputReader.HoldEvent += ToggleHold;
     }
 
-    public void Update()
-    {
-    }
-
-    void ToggleHold()
+    public void ToggleHold()
     {
         if (AttachedToWire)
         {
@@ -67,6 +60,8 @@ public class WireHolder : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!ShouldPlace) return;
+
         // State Normal
         if (!AttachedToWire)
         {
@@ -116,12 +111,12 @@ public class WireHolder : MonoBehaviour
         }
     }
 
-    public void Drop()
+    void Drop()
     {
         Wire.Place();
     }
 
-    private void RecordDistance()
+    void RecordDistance()
     {
         distanceX += math.distance(transform.position.x, previousPosition.x);
         previousPosition = (float3)transform.position;

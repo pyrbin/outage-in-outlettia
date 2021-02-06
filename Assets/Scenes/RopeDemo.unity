@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 554268979}
   - component: {fileID: 554268980}
   - component: {fileID: 554268978}
+  - component: {fileID: 554268981}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -540,7 +541,7 @@ MonoBehaviour:
   Wire: {fileID: 1535538783}
   PlaceDistance: 1.5
   Height: 1
-  InputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
+  ShouldPlace: 1
 --- !u!114 &554268979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,7 +558,6 @@ MonoBehaviour:
   MaxSpeed: 5
   Acceleration: 15
   Deacceleration: 20
-  inputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
 --- !u!232 &554268980
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -577,6 +577,19 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 0
   m_Distance: 1.1592475
   m_MaxDistanceOnly: 0
+--- !u!114 &554268981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554268973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43225e78bcf08bc4eada8c7e61230d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
 --- !u!1 &861760921
 GameObject:
   m_ObjectHideFlags: 0
