@@ -1,10 +1,12 @@
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using System.Runtime.CompilerServices;
 
-public static class RaycastUtility
+public static class Physics2DUtility
 {
-    private static float2 GetClosestColliderPointFromRaycastHit(RaycastHit2D hit, PolygonCollider2D polyCollider)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float2 GetClosestPointFromRaycastHit(RaycastHit2D hit, PolygonCollider2D polyCollider)
     {
         // Transform polygoncolliderpoints to world space (default is local)
         var distanceDictionary = polyCollider.points.ToDictionary<Vector2, float, Vector2>(
