@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class WireHolder : MonoBehaviour
 {
     [Header("Wire Settings")]
-    [Required]
     public Wire Wire;
     public float PlaceDistance = 1f;
     public float RetractSpeed = 1f;
@@ -73,7 +72,9 @@ public class WireHolder : MonoBehaviour
         TryGetComponent(out Controller);
 
         DistanceJoint.enabled = false;
-        SetWire(wire: Wire);
+
+        if (Wire)
+            SetWire(wire: Wire);
     }
 
     void SetWire(Wire wire)
@@ -145,8 +146,15 @@ public class WireHolder : MonoBehaviour
         DistanceJoint.connectedAnchor = Wire.LastPlaced.Value;
     }
 
+    void Update()
+    {
+        if (!Wire) return;
+    }
+
     void FixedUpdate()
     {
+        if (!Wire) return;
+
         // Trying to hold state
         if (tryingToHold)
         {

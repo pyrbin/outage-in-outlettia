@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 423426377472385845}
   - component: {fileID: 423426377472385841}
   - component: {fileID: 423426377472385842}
+  - component: {fileID: 3243165091733161395}
   m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423426377472385834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.55, y: 1.04, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 423426377676210690}
@@ -153,7 +154,9 @@ MonoBehaviour:
   MaxSpeed: 5
   Acceleration: 15
   Deacceleration: 20
-  inputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
+  BoostPower: 1
+  SwingForce: 1
+  DrawGizmos: 1
 --- !u!232 &423426377472385843
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -187,8 +190,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wire: {fileID: 0}
   PlaceDistance: 1.5
+  RetractSpeed: 1
+  ShouldPlace: 1
+  PlaceAfterHangingCooldown: 0.8
   Height: 1
-  InputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
 --- !u!114 &423426377472385841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +227,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3243165091733161395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423426377472385834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43225e78bcf08bc4eada8c7e61230d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
 --- !u!1 &423426377676210693
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d519589bacb8c48ba7bfeb126496e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SwitchOnInteract: 0
   overrideControllers:
   - {fileID: 22100000, guid: 8e3772e891e2a0f4fa775365d325a8dc, type: 2}
   - {fileID: 22100000, guid: 178afed5c007f9544a1e0bf106f67475, type: 2}
