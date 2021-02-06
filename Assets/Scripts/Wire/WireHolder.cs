@@ -42,40 +42,69 @@ public class WireHolder : MonoBehaviour
         if (AttachedToWire)
         {
             DistanceJoint.enabled = false;
+            Wire.LastPointUpdated -= UpdateAttachedPoint;
         }
+        // set attached
         else if (Controller.IsFalling)
         {
             Wire.Tighten();
             if (Wire.LastPlacedIsHangable(transform))
             {
-                var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy);
-                DistanceJoint.distance = distance;
-                DistanceJoint.maxDistanceOnly = true;
-                DistanceJoint.connectedAnchor = Wire.LastPlaced.Value;
+                Wire.LastPointUpdated += UpdateAttachedPoint;
+                SyncDistanceJoinWithWirePoint();
                 DistanceJoint.enabled = true;
             }
         }
     }
 
+    void SyncDistanceJoinWithWirePoint()
+    {
+        var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy);
+        DistanceJoint.distance = distance;
+        DistanceJoint.maxDistanceOnly = true;
+        DistanceJoint.connectedAnchor = Wire.LastPlaced.Value;
+    }
+
     void FixedUpdate()
     {
-        var isOnEdge = false;
-        if (Controller.IsGrounded)
+        // State Normal
+        if (!AttachedToWire)
         {
-            var hit = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, Wire.GroundMask);
+            var isOnEdge = false;
+            if (Controller.IsGrounded)
+            {
+                var hit = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, Wire.GroundMask);
+                if (hit)
+                {
+                    Debug.DrawLine(transform.position, new float3(hit.point, 0), Color.red);
+                    isOnEdge = math.abs(math.distance(hit.point.y, transform.position.y)) > Height;
+                }
+            }
+
+            if (recordTravel && !AttachedToWire)
+            {
+                RecordDistance();
+                if (!isOnEdge)
+                    DetermineIfDropWire();
+            }
+        }
+        // State Attached
+        else if (AttachedToWire)
+        {
+            var direction = math.normalize(Wire.LastPlaced.Value - ((float3)transform.position).xy);
+            var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy);
+            var hit = Physics2D.Raycast(transform.position, direction, distance, Wire.GroundMask);
             if (hit)
             {
-                Debug.DrawLine(transform.position, new float3(hit.point, 0), Color.red);
-                isOnEdge = math.abs(math.distance(hit.point.y, transform.position.y)) > Height;
+                Wire.AddPointToBack(new Wire.Point { Value = hit.point });
             }
         }
 
-        if (recordTravel && !AttachedToWire)
-        {
-            RecordDistance();
-            if (!isOnEdge)
-                DetermineIfDropWire();
-        }
+    }
+
+    void UpdateAttachedPoint(Wire.Point point)
+    {
+        SyncDistanceJoinWithWirePoint();
     }
 
     void DetermineIfDropWire()
