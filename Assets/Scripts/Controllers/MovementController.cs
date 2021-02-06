@@ -11,6 +11,7 @@ public class MovementController : MonoBehaviour
     public float MaxSpeed = 5f;
     public float Acceleration = 15f;
     public float Deacceleration = 20f;
+    public float MaxSpeedPoint = 2f;
 
     public float Direction
     {
@@ -20,11 +21,16 @@ public class MovementController : MonoBehaviour
 
     private Rigidbody2D rbody;
     private ContactFilter2D ContactFilter;
+    private WireHolder wireHolder;
     private float movementDirection;
+
+    [Header("Debugging")]
+    public bool DrawGizmos = true;
 
     void Start()
     {
         TryGetComponent<Rigidbody2D>(out rbody);
+        TryGetComponent<WireHolder>(out wireHolder);
 
         // Should only check ground contact
         ContactFilter.useNormalAngle = true;
@@ -34,8 +40,35 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Deaccalerate();
-        Accelerate();
+        if (wireHolder.AttachedToWire)
+        {
+            WireMovement();
+        }
+        else
+        {
+            Deaccalerate();
+            Accelerate();
+        }
+    }
+
+    private void WireMovement()
+    {
+        if (movementDirection != 0)
+        {
+            Vector2 direction = new Vector2(wireHolder.Wire.LastPlaced.Value.x - transform.position.x, wireHolder.Wire.LastPlaced.Value.y - transform.position.y);
+            Vector3 perp = Vector2.Perpendicular(direction) * movementDirection * -1;
+            perp.Normalize();
+            rbody.AddForce(perp, ForceMode2D.Force);
+
+#if UNITY_EDITOR
+            if (DrawGizmos)
+            {
+                DebugDraw.Arrow(transform.position, perp, Color.red, 1f);
+            }
+#endif
+
+        }
+
     }
 
     // Returns true if the rigidbody has any velocity on the x-axis
@@ -55,10 +88,21 @@ public class MovementController : MonoBehaviour
 
     public void Jump()
     {
-        if (Mathf.Abs(rbody.velocity.y) < 0.001f)
+
+        if (wireHolder.AttachedToWire)
         {
-            rbody.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
-            OnJump.Invoke();
+            WireMovement();
+            Vector2 direction = new Vector2(wireHolder.Wire.LastPlaced.Value.x - transform.position.x, wireHolder.Wire.LastPlaced.Value.y - transform.position.y);
+            rbody.AddForce(direction, ForceMode2D.Impulse);
+
+        }
+        else
+        {
+            if (Mathf.Abs(rbody.velocity.y) < 0.001f)
+            {
+                rbody.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+                OnJump.Invoke();
+            }
         }
     }
 
