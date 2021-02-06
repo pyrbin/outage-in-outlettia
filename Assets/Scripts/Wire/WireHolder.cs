@@ -32,7 +32,7 @@ public class WireHolder : MonoBehaviour
     public bool IsHanging => AttachedToWire;
     public bool AttachedToWire => DistanceJoint.enabled;
 
-    public UnityAction<Checkpoint> NewCheckpoint = delegate { };
+    public UnityAction<Checkpoint> CheckpointUsed = delegate { };
 
     public UnityAction WireReachedMaxLength = delegate { };
 
@@ -77,7 +77,7 @@ public class WireHolder : MonoBehaviour
             SetWire(wire: Wire);
     }
 
-    void SetWire(Wire wire)
+    public void SetWire(Wire wire)
     {
         if (wire != Wire && Wire)
         {

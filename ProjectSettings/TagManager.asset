@@ -41,9 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: World
+    uniqueID: 3094346873
+    locked: 0
+  - name: Wire
+    uniqueID: 1096374533
+    locked: 0
   - name: Body
     uniqueID: 2971443603
     locked: 0
+  - name: Checkpoint
+    uniqueID: 3094661007
+    locked: 0
   - name: Face
     uniqueID: 3713244029
+    locked: 0
+  - name: Hands
+    uniqueID: 1300460259
     locked: 0
