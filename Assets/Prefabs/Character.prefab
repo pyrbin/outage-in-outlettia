@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &170513352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 170513353}
+  - component: {fileID: 170513355}
+  - component: {fileID: 170513354}
+  m_Layer: 6
+  m_Name: InteractorRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &170513353
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170513352}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 423426377472385846}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &170513355
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170513352}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.62
+--- !u!114 &170513354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170513352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7e75526716dcdf45ba67777f14150c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &423426377472385834
 GameObject:
   m_ObjectHideFlags: 0
@@ -17,6 +77,8 @@ GameObject:
   - component: {fileID: 423426377472385845}
   - component: {fileID: 423426377472385841}
   - component: {fileID: 423426377472385842}
+  - component: {fileID: 1954355595}
+  - component: {fileID: 1954355596}
   m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
@@ -36,6 +98,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 423426377676210690}
+  - {fileID: 170513353}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -124,7 +187,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1323523693
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1b4748f57bebed34d9d575da7322c741, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -149,11 +212,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd68dba1b3c8434e9d114090268fb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpForce: 11
+  JumpForce: 7
   MaxSpeed: 5
   Acceleration: 15
   Deacceleration: 20
-  inputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
+  BoostPower: 1
+  SwingForce: 1
+  DrawGizmos: 1
 --- !u!232 &423426377472385843
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -187,8 +252,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wire: {fileID: 0}
   PlaceDistance: 1.5
+  RetractSpeed: 1
+  ShouldPlace: 1
+  PlaceAfterHangingCooldown: 0.8
   Height: 1
-  InputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
 --- !u!114 &423426377472385841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +289,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1954355595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423426377472385834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43225e78bcf08bc4eada8c7e61230d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
+--- !u!114 &1954355596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423426377472385834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5c01aa30de6c041ac2dfdc84d98075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionEmitter: {fileID: 170513354}
 --- !u!1 &423426377676210693
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +386,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -581723267
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -337,6 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d519589bacb8c48ba7bfeb126496e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SwitchOnInteract: 0
   overrideControllers:
   - {fileID: 22100000, guid: 8e3772e891e2a0f4fa775365d325a8dc, type: 2}
   - {fileID: 22100000, guid: 178afed5c007f9544a1e0bf106f67475, type: 2}
