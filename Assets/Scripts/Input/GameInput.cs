@@ -57,6 +57,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Retract"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9c2a4ca-7820-4cbd-9712-6bf1504c9de4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -136,6 +144,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49f24d94-184d-4685-9413-7b24f3e78c65"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Retract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -149,6 +168,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Hold = m_Gameplay.FindAction("Hold", throwIfNotFound: true);
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
+        m_Gameplay_Retract = m_Gameplay.FindAction("Retract", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -203,6 +223,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Hold;
     private readonly InputAction m_Gameplay_Interact;
+    private readonly InputAction m_Gameplay_Retract;
     public struct GameplayActions
     {
         private @GameInput m_Wrapper;
@@ -212,6 +233,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Hold => m_Wrapper.m_Gameplay_Hold;
         public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
+        public InputAction @Retract => m_Wrapper.m_Gameplay_Retract;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -236,6 +258,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
+                @Retract.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRetract;
+                @Retract.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRetract;
+                @Retract.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRetract;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -255,6 +280,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Retract.started += instance.OnRetract;
+                @Retract.performed += instance.OnRetract;
+                @Retract.canceled += instance.OnRetract;
             }
         }
     }
@@ -266,5 +294,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnRetract(InputAction.CallbackContext context);
     }
 }
