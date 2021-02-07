@@ -3,6 +3,7 @@ namespace JSAM {
         Checkpoint_Used,
         Connect_Wire,
         Death,
+        Dialog,
         Jump,
         Restart,
         Swinging,

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d15ae218647a2d4f85e14306846c10c, type: 3}
-  m_Name: Jump
+  m_Name: Dialog
   m_EditorClassIdentifier: 
-  file: {fileID: 8300000, guid: 0e4d663190ad30848b7477a92f041773, type: 3}
+  file: {fileID: 0}
   files: []
   useLibrary: 0
   neverRepeat: 0
   lastClipIndex: -1
   category: 
-  relativeVolume: 0.82
+  relativeVolume: 1
   spatialize: 0
   maxDistance: 0
   priority: 128
@@ -33,7 +33,7 @@ MonoBehaviour:
   bypassEffects: 0
   bypassListenerEffects: 0
   bypassReverbZones: 0
-  safeName: Jump
+  safeName: 
   chorusFilter:
     enabled: 0
     dryMix: 0

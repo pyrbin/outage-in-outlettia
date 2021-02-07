@@ -50,6 +50,7 @@ public class Game : MonoBehaviour
         Holder = Player.GetComponent<WireHolder>();
         Holder.GetComponent<WireHolder>().WireReachedMaxLength += () =>
         {
+            JSAM.AudioManager.PlaySound(JSAM.Sounds.Death);
             ReloadText.SetActive(true);
             reachedMax = true;
         };
@@ -69,6 +70,7 @@ public class Game : MonoBehaviour
     {
         if (restarting) return;
         Loader.RestartGameScene();
+        JSAM.AudioManager.PlaySound(JSAM.Sounds.Restart);
     }
 
     public void EndGame()
