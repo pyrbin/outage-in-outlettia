@@ -135,6 +135,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2089894026}
     - target: {fileID: 784094268, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
+      propertyPath: InputReader
+      value: 
+      objectReference: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
+    - target: {fileID: 784094268, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
       propertyPath: TransitionTime
       value: 2
       objectReference: {fileID: 0}

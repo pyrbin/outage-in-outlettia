@@ -51,6 +51,7 @@ public class Game : MonoBehaviour
         Holder.GetComponent<WireHolder>().WireReachedMaxLength += () =>
         {
             ReloadText.SetActive(true);
+            reachedMax = true;
         };
 
     }
@@ -67,10 +68,6 @@ public class Game : MonoBehaviour
     public void Restart()
     {
         if (restarting) return;
-        foreach (var wire in FindObjectsOfType<Wire>())
-        {
-            DestroyImmediate(wire.gameObject);
-        }
         Loader.RestartGameScene();
     }
 
@@ -83,7 +80,6 @@ public class Game : MonoBehaviour
             length += wire.TotalLength;
         }
 
-        Debug.Log(length);
         EndScoreText.text = $"{length}m";
         EndScore.SetActive(true);
     }
