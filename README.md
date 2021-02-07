@@ -1,15 +1,21 @@
 <p align="center">
-    <br><b><i>mini-jam-73-power</i>🐦</b><br>
+    <br><b><i>Outage in Outlettia</i> ⚡ </b><br>
 </p>
 
 ---
 
 # Description
 
-mini-jam-73 entry
+Entry for mini-jam 73.
 
+| Theme | Limitation |
+| -     | -          |
+| Power | 5 colors   |
+
+
+#### Made by Frans, Jottis & Isak
 ---
 
 <p align="center">
-    <b><i><a href="https://github.com/pyrbin/mini-jam-73-power">mini-jam-73-power</a></b></i>
+    <b><i><a href="https://pyrbin.itch.io/outage-in-outlettia">itch.io/outage-in-outlettia</a></b></i>
 </p>
