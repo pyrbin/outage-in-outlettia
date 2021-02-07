@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "Globals/Input Reader")]
-public class InputReader : ScriptableObject, GameInput.IGameplayActions
+public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInput.IMenuActions
 {
     public event UnityAction PauseEvent = delegate { };
     public event UnityAction<float> MoveEvent = delegate { };
@@ -15,6 +15,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
     public event UnityAction RetractEvent = delegate { };
     public event UnityAction UsePowerEvent = delegate { };
 
+    public event UnityAction SkipEvent = delegate { };
+
     private GameInput GameInput;
 
     private void OnEnable()
@@ -23,6 +25,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
         {
             GameInput = new GameInput();
             GameInput.Gameplay.SetCallbacks(this);
+            GameInput.Menu.SetCallbacks(this);
         }
 
         EnableGameplayInput();
@@ -33,8 +36,20 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
         DisableAllInput();
     }
 
+    public void EnableMenuInput()
+    {
+        GameInput.Menu.Enable();
+        GameInput.Gameplay.Disable();
+    }
+
+    public void DisableMenuInput()
+    {
+        GameInput.Menu.Disable();
+    }
+
     public void EnableGameplayInput()
     {
+        GameInput.Menu.Disable();
         GameInput.Gameplay.Enable();
     }
 
@@ -42,6 +57,13 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
     {
         GameInput.Gameplay.Disable();
     }
+
+    public void OnSkip(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            SkipEvent.Invoke();
+    }
+
 
     public void OnPause(InputAction.CallbackContext context)
     {

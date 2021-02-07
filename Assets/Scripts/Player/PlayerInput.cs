@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
 
     void Start()
     {
+        InputReader.EnableGameplayInput();
+
         TryGetComponent(out WireHolder);
         TryGetComponent(out Movement);
         TryGetComponent(out Interactor);

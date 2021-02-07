@@ -40,6 +40,7 @@ public class Wire : MonoBehaviour
 
     public void Freeze()
     {
+        Place();
         this.enabled = false;
     }
 

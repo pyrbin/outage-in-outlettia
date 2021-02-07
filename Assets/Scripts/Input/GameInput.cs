@@ -176,6 +176,33 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""2e29132b-fbdb-488b-bcd0-a57baab8161c"",
+            ""actions"": [
+                {
+                    ""name"": ""Skip"",
+                    ""type"": ""Button"",
+                    ""id"": ""7175412b-e964-416d-b59b-c047e1dca385"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""19e8b620-e7f4-46db-b28d-54dfa61eee94"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -189,6 +216,9 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_Retract = m_Gameplay.FindAction("Retract", throwIfNotFound: true);
         m_Gameplay_UsePower = m_Gameplay.FindAction("UsePower", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Skip = m_Menu.FindAction("Skip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -315,6 +345,39 @@ public class @GameInput : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_Skip;
+    public struct MenuActions
+    {
+        private @GameInput m_Wrapper;
+        public MenuActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Skip => m_Wrapper.m_Menu_Skip;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @Skip.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnSkip;
+                @Skip.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnSkip;
+                @Skip.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnSkip;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Skip.started += instance.OnSkip;
+                @Skip.performed += instance.OnSkip;
+                @Skip.canceled += instance.OnSkip;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     public interface IGameplayActions
     {
         void OnPause(InputAction.CallbackContext context);
@@ -324,5 +387,9 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnRetract(InputAction.CallbackContext context);
         void OnUsePower(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnSkip(InputAction.CallbackContext context);
     }
 }

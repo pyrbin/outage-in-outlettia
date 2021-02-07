@@ -31,12 +31,14 @@ public class Interactor : MonoBehaviour
         {
             if (!GetInteractable(data.transform, out var inter)) return;
             Tracked.Add(inter);
+            inter.See(this);
         };
 
         collisionEmitter.OnTriggerExit += (data) =>
         {
             if (!GetInteractable(data.transform, out var inter)) return;
             RemoveFromTracked(inter);
+            inter.Lost(this);
         };
 
         StartCoroutine(
