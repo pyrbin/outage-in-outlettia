@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7084479399718491440}
   - component: {fileID: 7084479399718491447}
   - component: {fileID: 7084479399718491442}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -581723267
-  m_SortingLayer: 5
-  m_SortingOrder: 0
+  m_SortingLayerID: -1936432931
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -148,8 +148,8 @@ GameObject:
   - component: {fileID: 5382779026241950336}
   - component: {fileID: 7471876912699835275}
   m_Layer: 6
-  m_Name: Character 1
-  m_TagString: Untagged
+  m_Name: Character
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -255,8 +255,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1323523693
-  m_SortingLayer: 3
+  m_SortingLayerID: -1936432931
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1b4748f57bebed34d9d575da7322c741, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -287,7 +287,7 @@ MonoBehaviour:
   Deacceleration: 20
   BoostPower: 1
   SwingForce: 2
-  wireHolder: {fileID: 0}
+  wireHolder: {fileID: 7084479399787328518}
   state: 1
   DrawGizmos: 1
 --- !u!232 &7084479399787328512
@@ -429,7 +429,7 @@ Animator:
   m_GameObject: {fileID: 7471876912569759704}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: d2390ed571648e84a8d69e480bbd9442, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -475,9 +475,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1300460259
-  m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingLayerID: -1936432931
+  m_SortingLayer: 2
+  m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 7471876912861744180}
   - component: {fileID: 7471876912861744178}
   - component: {fileID: 7471876912861744179}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: InteractorRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
