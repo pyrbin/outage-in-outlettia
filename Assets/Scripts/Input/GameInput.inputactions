@@ -60,6 +60,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "2722d4b0-ce8f-43c8-93d0-f964371854e7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -159,6 +167,44 @@
                     "processors": "",
                     "groups": "",
                     "action": "UsePower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "252331aa-cf85-4c42-b304-9132ef2186f2",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "2e29132b-fbdb-488b-bcd0-a57baab8161c",
+            "actions": [
+                {
+                    "name": "Skip",
+                    "type": "Button",
+                    "id": "7175412b-e964-416d-b59b-c047e1dca385",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "19e8b620-e7f4-46db-b28d-54dfa61eee94",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -14,5 +14,18 @@ public abstract class Interactable : MonoBehaviour
         Interacted?.Invoke(user);
     }
 
+    public void Lost(Interactor user)
+    {
+        LostRange(user);
+    }
+
+    public void See(Interactor user)
+    {
+        InRange(user);
+    }
+
     protected abstract void OnInteract(Interactor user);
+    protected abstract void InRange(Interactor user);
+    protected abstract void LostRange(Interactor user);
+
 }

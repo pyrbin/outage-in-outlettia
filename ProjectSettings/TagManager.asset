@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SceneLoader
   layers:
   - Default
   - TransparentFX
@@ -58,4 +59,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 2671958223
+    locked: 0
+  - name: OnTopUI
+    uniqueID: 839319379
     locked: 0

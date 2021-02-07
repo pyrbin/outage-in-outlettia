@@ -30,11 +30,13 @@ public class WireHolder : MonoBehaviour
     private Wire.Point originHangPoint;
 
     public bool IsHanging => AttachedToWire;
-    public bool AttachedToWire => DistanceJoint.enabled;
+    public bool AttachedToWire => DistanceJoint && DistanceJoint.enabled;
 
     public UnityAction<Checkpoint> CheckpointUsed = delegate { };
 
     public UnityAction WireReachedMaxLength = delegate { };
+
+    public UnityAction<Wire> SetNewWire = delegate { };
 
     public void ToggleRecordingDistance() => recordTravel = !recordTravel;
 
@@ -86,6 +88,7 @@ public class WireHolder : MonoBehaviour
 
         Wire = wire;
         Wire.ReachedMaxLength += OnWireReachedMaxLength;
+        SetNewWire.Invoke(wire);
     }
 
     void OnWireReachedMaxLength()

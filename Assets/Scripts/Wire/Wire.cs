@@ -31,15 +31,16 @@ public class Wire : MonoBehaviour
     private EdgeCollider2D EdgeCollider;
     private LineRenderer LineRenderer;
 
-    private List<Point> Placed;
-    private List<Point> InAir;
+    private List<Point> Placed = new List<Point>();
+    private List<Point> InAir = new List<Point>();
 
     private ContactPoint2D[] ContactPoints;
 
     private float Length = 0f;
 
-    private void Freeze()
+    public void Freeze()
     {
+        Place();
         this.enabled = false;
     }
 
@@ -47,10 +48,17 @@ public class Wire : MonoBehaviour
     {
         TryGetComponent(out LineRenderer);
         TryGetComponent(out EdgeCollider);
+        if (Origin) Init();
+    }
 
-        Placed = new List<Point>();
-        InAir = new List<Point>();
+    public void SetColor(Color color)
+    {
+        LineRenderer.startColor = color;
+        LineRenderer.endColor = color;
+    }
 
+    public void Init()
+    {
         Placed.Add(new Point { Value = ((float3)Origin.position).xy });
         lastPlacedTemp = LastPlaced;
         LastPointUpdated?.Invoke(lastPlacedTemp);
@@ -212,7 +220,8 @@ public class Wire : MonoBehaviour
     private bool WrapWireAroundObstacles(float2 a, float2 b, int insertAt)
     {
         var added = false;
-        var hit = Physics2D.Linecast(a, b, GroundMask);
+        var offset = new float2(0, 0.075f);
+        var hit = Physics2D.Linecast(a + offset, b + offset, GroundMask);
         if (hit)
         {
             float2 point = hit.point;
@@ -237,7 +246,7 @@ public class Wire : MonoBehaviour
         }
         if (DrawGizmos)
         {
-            Debug.DrawLine(new float3(a, 1), new float3(b, 1), Color.blue);
+            Debug.DrawLine(new float3(a + offset, 0), new float3(b + offset, 0), Color.blue);
         }
         return added;
     }

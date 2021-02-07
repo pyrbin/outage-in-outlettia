@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "Globals/Input Reader")]
-public class InputReader : ScriptableObject, GameInput.IGameplayActions
+public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInput.IMenuActions
 {
     public event UnityAction PauseEvent = delegate { };
     public event UnityAction<float> MoveEvent = delegate { };
@@ -14,6 +14,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
     public event UnityAction InteractEvent = delegate { };
     public event UnityAction RetractEvent = delegate { };
     public event UnityAction UsePowerEvent = delegate { };
+    public event UnityAction ReloadEvent = delegate { };
+    public event UnityAction SkipEvent = delegate { };
 
     private GameInput GameInput;
 
@@ -23,9 +25,23 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
         {
             GameInput = new GameInput();
             GameInput.Gameplay.SetCallbacks(this);
+            GameInput.Menu.SetCallbacks(this);
         }
 
         EnableGameplayInput();
+    }
+
+    public void Clear()
+    {
+        PauseEvent = delegate { };
+        MoveEvent = delegate { };
+        JumpEvent = delegate { };
+        HoldEvent = delegate { };
+        InteractEvent = delegate { };
+        RetractEvent = delegate { };
+        UsePowerEvent = delegate { };
+        ReloadEvent = delegate { };
+        SkipEvent = delegate { };
     }
 
     private void OnDisable()
@@ -33,14 +49,38 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions
         DisableAllInput();
     }
 
+    public void EnableMenuInput()
+    {
+        GameInput.Menu.Enable();
+        GameInput.Gameplay.Disable();
+    }
+
+    public void DisableMenuInput()
+    {
+        GameInput.Menu.Disable();
+    }
+
     public void EnableGameplayInput()
     {
+        GameInput.Menu.Disable();
         GameInput.Gameplay.Enable();
     }
 
     public void DisableAllInput()
     {
         GameInput.Gameplay.Disable();
+    }
+
+    public void OnSkip(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            SkipEvent.Invoke();
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            ReloadEvent.Invoke();
     }
 
     public void OnPause(InputAction.CallbackContext context)

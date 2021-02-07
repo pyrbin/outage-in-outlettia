@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
 
     void Start()
     {
+        InputReader.EnableGameplayInput();
+
         TryGetComponent(out WireHolder);
         TryGetComponent(out Movement);
         TryGetComponent(out Interactor);
@@ -50,7 +52,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void OnDisable()
     {
 
     }

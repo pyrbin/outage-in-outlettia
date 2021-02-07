@@ -46,8 +46,8 @@ public class MovementController : MonoBehaviour
 
         // Should only check ground contact
         ContactFilter.useNormalAngle = true;
-        ContactFilter.minNormalAngle = 90f;
-        ContactFilter.maxNormalAngle = 90f;
+        ContactFilter.minNormalAngle = 75f;
+        ContactFilter.maxNormalAngle = 105f;
     }
 
     void FixedUpdate()
@@ -79,7 +79,8 @@ public class MovementController : MonoBehaviour
     {
         Stop();
         state = MovementState.Frozen;
-        checkpoint.OnSuccess += () => state = MovementState.Free;
+        if (checkpoint)
+            checkpoint.OnSuccess += () => state = MovementState.Free;
     }
 
     private void WireMovement()
