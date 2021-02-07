@@ -51,6 +51,12 @@ public class Wire : MonoBehaviour
         if (Origin) Init();
     }
 
+    public void SetColor(Color color)
+    {
+        LineRenderer.startColor = color;
+        LineRenderer.endColor = color;
+    }
+
     public void Init()
     {
         Placed.Add(new Point { Value = ((float3)Origin.position).xy });

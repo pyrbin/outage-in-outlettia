@@ -11,7 +11,11 @@ public class Generator : Interactable
     [SerializeField] private Transform Socket;
     [SerializeField] private Transform Hint;
 
-    public event UnityAction OnInserted;
+    public UnityAction OnInserted = delegate { };
+
+    private WireHolder holder;
+    private Wire newWire;
+    private Wire oldWire;
 
     public float Time = 0.9f;
 
@@ -37,18 +41,23 @@ public class Generator : Interactable
         if (user.TryGetComponent<WireHolder>(out WireHolder wireHolder))
         {
             Taken = true;
+            holder = wireHolder;
             wireHolder.transform.position = Socket.position - new Vector3(0.35f, 0, 0);
-            Wire oldWire = wireHolder.Wire;
-            oldWire.Target = Socket;
-            oldWire.Freeze();
-            Invoke("Success", Time);
-
             wireHolder.CheckpointUsed.Invoke(null);
+            Invoke("Success", Time);
         }
     }
 
     public void Success()
     {
-        OnInserted?.Invoke();
+        oldWire = holder.Wire;
+        oldWire.Target = Socket;
+        Hint.gameObject.SetActive(false);
+        Invoke("DisableOldWire", 1f);
+    }
+
+    public void DisableOldWire()
+    {
+        OnInserted.Invoke();
     }
 }

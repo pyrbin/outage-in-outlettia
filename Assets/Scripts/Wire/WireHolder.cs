@@ -30,7 +30,7 @@ public class WireHolder : MonoBehaviour
     private Wire.Point originHangPoint;
 
     public bool IsHanging => AttachedToWire;
-    public bool AttachedToWire => DistanceJoint.enabled;
+    public bool AttachedToWire => DistanceJoint && DistanceJoint.enabled;
 
     public UnityAction<Checkpoint> CheckpointUsed = delegate { };
 
