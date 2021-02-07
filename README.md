@@ -1,4 +1,5 @@
 <p align="center">
+    <img src="https://i.imgur.com/bgQJLY2.png" />
     <br><b><i>Outage in Outlettia</i> ⚡ </b><br>
 </p>
 
