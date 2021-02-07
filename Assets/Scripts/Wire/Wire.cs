@@ -31,14 +31,14 @@ public class Wire : MonoBehaviour
     private EdgeCollider2D EdgeCollider;
     private LineRenderer LineRenderer;
 
-    private List<Point> Placed;
-    private List<Point> InAir;
+    private List<Point> Placed = new List<Point>();
+    private List<Point> InAir = new List<Point>();
 
     private ContactPoint2D[] ContactPoints;
 
     private float Length = 0f;
 
-    private void Freeze()
+    public void Freeze()
     {
         this.enabled = false;
     }
@@ -47,10 +47,11 @@ public class Wire : MonoBehaviour
     {
         TryGetComponent(out LineRenderer);
         TryGetComponent(out EdgeCollider);
+        if (Origin) Init();
+    }
 
-        Placed = new List<Point>();
-        InAir = new List<Point>();
-
+    public void Init()
+    {
         Placed.Add(new Point { Value = ((float3)Origin.position).xy });
         lastPlacedTemp = LastPlaced;
         LastPointUpdated?.Invoke(lastPlacedTemp);

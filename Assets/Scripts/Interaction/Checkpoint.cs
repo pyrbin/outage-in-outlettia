@@ -36,11 +36,13 @@ public class Checkpoint : Interactable
 
             Wire oldWire = wireHolder.Wire;
             oldWire.Target = SocketIn;
+            oldWire.Freeze();
 
             Wire newWire = Instantiate(wirePrefab);
             newWire.MaxLength = MaxLength;
             newWire.Target = wireHolder.transform;
             newWire.Origin = SocketOut;
+            newWire.Init();
             wireHolder.SetWire(newWire);
 
             Invoke("Success", time);

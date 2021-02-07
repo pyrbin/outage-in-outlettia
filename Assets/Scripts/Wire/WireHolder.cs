@@ -88,6 +88,7 @@ public class WireHolder : MonoBehaviour
 
         Wire = wire;
         Wire.ReachedMaxLength += OnWireReachedMaxLength;
+        SetNewWire.Invoke(wire);
     }
 
     void OnWireReachedMaxLength()
