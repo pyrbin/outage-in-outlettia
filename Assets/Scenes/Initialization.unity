@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4525688047578866344, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4525688047578866344, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 1167622826}
   m_Layer: 0
   m_Name: Audio Manager
-  m_TagString: Untagged
+  m_TagString: AudioManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -289,6 +289,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 07b6a740a2716004382d36e961b999a9, type: 2}
   - {fileID: 11400000, guid: 492e7468fca9842468721f7bb60f69f2, type: 2}
   - {fileID: 11400000, guid: cda804a3de9ad6643b66252b1ef606ae, type: 2}
+  - {fileID: 11400000, guid: 5f862d2c2403b694cae6a1f688c978aa, type: 2}
   - {fileID: 11400000, guid: 0f2f34ca52cf33f42854787f7c09e769, type: 2}
   - {fileID: 11400000, guid: 80d795bd04cc7bf4e917c00a182c92b5, type: 2}
   - {fileID: 11400000, guid: bf8522515d2abd142a4be58bfc918346, type: 2}
@@ -330,7 +331,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2089894026 stripped
 Animator:

@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Dialog
   m_EditorClassIdentifier: 
   file: {fileID: 0}
-  files: []
-  useLibrary: 0
+  files:
+  - {fileID: 8300000, guid: f852c4c8b75c99e45a0cbf078c58ddde, type: 3}
+  - {fileID: 8300000, guid: 09bf34a23c4c9e349bef82fd11449dec, type: 3}
+  - {fileID: 8300000, guid: 30443dbb1f0487f43b38d6410e75b73f, type: 3}
+  useLibrary: 1
   neverRepeat: 0
   lastClipIndex: -1
   category: 
@@ -33,7 +36,7 @@ MonoBehaviour:
   bypassEffects: 0
   bypassListenerEffects: 0
   bypassReverbZones: 0
-  safeName: 
+  safeName: Dialog
   chorusFilter:
     enabled: 0
     dryMix: 0
