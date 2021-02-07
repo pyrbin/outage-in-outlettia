@@ -45,6 +45,7 @@ public class Generator : Interactable
             wireHolder.transform.position = Socket.position - new Vector3(0.35f, 0, 0);
             wireHolder.CheckpointUsed.Invoke(null);
             Invoke("Success", Time);
+            JSAM.AudioManager.PlaySound(JSAM.Sounds.Connect_Wire);
         }
     }
 
@@ -58,6 +59,7 @@ public class Generator : Interactable
             wire.SetColor(new Color(255f / 255f, 203f / 255f, 1f / 255f, 1));
         }
         Invoke("DisableOldWire", 2f);
+
     }
 
     public void DisableOldWire()

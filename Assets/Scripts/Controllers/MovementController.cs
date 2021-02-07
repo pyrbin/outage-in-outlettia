@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JSAM;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,6 +34,8 @@ public class MovementController : MonoBehaviour
     private float movementDirection;
 
     public MovementState state = MovementState.Free;
+
+    public AudioSource swingingSound;
 
     [Header("Debugging")]
     public bool DrawGizmos = true;
@@ -70,9 +73,30 @@ public class MovementController : MonoBehaviour
         {
             if (wireHolder.Wire && wireHolder.Wire.AtMaxLength)
                 return;
-            Deaccalerate();
-            Accelerate();
+
+            if (movementDirection != 0)
+            {
+                if (IsGrounded)
+                {
+                    if (!AudioManager.IsSoundPlaying(Sounds.Walk))
+                        AudioManager.PlaySound(Sounds.Walk);
+                }
+                Deaccalerate();
+                Accelerate();
+            }
         }
+
+        if (IsGrounded || !wireHolder.AttachedToWire)
+        {
+            if (swingingSound != null)
+                AudioManager.StopSoundLoop(Sounds.Swinging);
+        }
+        else if (wireHolder.AttachedToWire && !AudioManager.IsSoundLooping(Sounds.Swinging))
+        {
+            swingingSound = AudioManager.PlaySoundLoop(Sounds.Swinging);
+        }
+        if (swingingSound != null)
+            swingingSound.volume = rbody.velocity.magnitude / 15f;
     }
 
     private void CheckpointUsed(Checkpoint checkpoint)
@@ -91,6 +115,7 @@ public class MovementController : MonoBehaviour
             Vector3 perp = Vector2.Perpendicular(direction) * movementDirection * -1;
             perp.Normalize();
             rbody.AddForce(perp * SwingForce, ForceMode2D.Force);
+
 
 #if UNITY_EDITOR
             if (DrawGizmos)
@@ -124,8 +149,9 @@ public class MovementController : MonoBehaviour
             return;
         if (!wireHolder.AttachedToWire)
         {
-            if (math.abs(rbody.velocity.y) < 0.001f)
+            if (IsGrounded)//math.abs(rbody.velocity.y) < 0.001f)
             {
+                JSAM.AudioManager.PlaySound(Sounds.Jump);
                 rbody.AddForce(new float2(0, JumpForce), ForceMode2D.Impulse);
                 OnJump.Invoke();
             }

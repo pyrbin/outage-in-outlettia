@@ -19,6 +19,8 @@ public class LoadSceneButton : MonoBehaviour
     // Update is called once per frame
     public void Load()
     {
+
+
         if (LoadGame)
         {
             Loader.LoadGameScene();

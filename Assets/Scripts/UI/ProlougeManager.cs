@@ -22,6 +22,9 @@ public class ProlougeManager : MonoBehaviour
     {
         Loader = GameObject.FindWithTag("SceneLoader").GetComponent<SceneLoader>();
 
+
+        Dialog.PrintCompleted.AddListener(() => JSAM.AudioManager.StopSound(JSAM.Sounds.Dialog));
+
         AddDialog("Old Outlettian", "Fellow Outlettians, we’re almost out of all our power, the outlet king pulled the plug on us! We need someone with enough energy and will to help us reconnect!");
         AddDialog("You", "I can do it!");
         AddDialog("Old Outlettian", "You sure? It is a long journey over to the holy generator.");
@@ -82,5 +85,6 @@ public class ProlougeManager : MonoBehaviour
         var (talker, content) = dialogueLines.Dequeue();
         Talker.text = talker;
         Dialog.TypeText(content);
+        JSAM.AudioManager.PlaySound(JSAM.Sounds.Dialog);
     }
 }
