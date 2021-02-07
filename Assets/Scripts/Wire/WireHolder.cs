@@ -36,6 +36,8 @@ public class WireHolder : MonoBehaviour
 
     public UnityAction WireReachedMaxLength = delegate { };
 
+    public UnityAction<Wire> SetNewWire = delegate { };
+
     public void ToggleRecordingDistance() => recordTravel = !recordTravel;
 
     public void ToggleHold()
