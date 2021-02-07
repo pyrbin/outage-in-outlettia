@@ -11,6 +11,10 @@ public class WireHolder : MonoBehaviour
     public float PlaceDistance = 1f;
     public float RetractSpeed = 1f;
 
+    [Header("Hands Settings")]
+    public Transform LeftHand;
+    public Transform RightHand;
+
     [Header("Variables")]
     public bool ShouldPlace = true;
     [NaughtyAttributes.Label("Place Cooldown (after hanging)")]
@@ -75,6 +79,7 @@ public class WireHolder : MonoBehaviour
         TryGetComponent(out Controller);
 
         DistanceJoint.enabled = false;
+        distanceX = 0;
 
         if (Wire)
             SetWire(wire: Wire);
@@ -89,6 +94,7 @@ public class WireHolder : MonoBehaviour
 
         Wire = wire;
         Wire.ReachedMaxLength += OnWireReachedMaxLength;
+
         SetNewWire.Invoke(wire);
     }
 
@@ -153,6 +159,22 @@ public class WireHolder : MonoBehaviour
     void Update()
     {
         if (!Wire) return;
+
+
+
+        if (Controller.Velocity.x < 0)
+        {
+            Wire.OverrideVisualTarget = RightHand;
+        }
+        else if (Controller.Velocity.x > 0)
+        {
+            Wire.OverrideVisualTarget = LeftHand;
+        }
+        else if (Wire.OverrideVisualTarget == null)
+        {
+            Wire.OverrideVisualTarget = LeftHand;
+
+        }
     }
 
     void FixedUpdate()
@@ -238,7 +260,8 @@ public class WireHolder : MonoBehaviour
         {
             if (Controller.IsFalling && !Wire.LastPlacedInAir) return;
             distanceX = 0;
-            Drop();
+            if (Wire.OverrideVisualTarget)
+                Drop();
         }
     }
 

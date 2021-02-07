@@ -46,14 +46,14 @@ TagManager:
   - name: Background
     uniqueID: 734801089
     locked: 0
-  - name: Player
-    uniqueID: 2358534365
-    locked: 0
   - name: World
     uniqueID: 3693885359
     locked: 0
   - name: Interactables
     uniqueID: 1745828915
+    locked: 0
+  - name: Player
+    uniqueID: 2358534365
     locked: 0
   - name: Wire
     uniqueID: 1096374533

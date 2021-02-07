@@ -82,6 +82,17 @@ public class Checkpoint : Interactable
         holder.ShouldPlace = false;
         newWire.MaxLength = MaxLength;
         newWire.Target = holder.transform;
+
+        var mc = holder.GetComponent<MovementController>();
+        if (mc.Velocity.x < 0)
+        {
+            newWire.OverrideVisualTarget = holder.RightHand;
+        }
+        else if (mc.Velocity.x >= 0)
+        {
+            newWire.OverrideVisualTarget = holder.LeftHand;
+        }
+
         newWire.Origin = SocketOut;
         newWire.Init();
         holder.SetWire(newWire);
