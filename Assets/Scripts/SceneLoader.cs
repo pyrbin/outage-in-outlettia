@@ -25,7 +25,7 @@ public class SceneLoader : MonoBehaviour
 
     public void RestartGameScene()
     {
-        StartCoroutine(LoadScene(GAMEPLAY_SCENE, GAMEPLAY_SCENE));
+        StartCoroutine(LoadScene(GAMEPLAY_SCENE, GAMEPLAY_SCENE, false));
     }
 
     public void LoadGameScene()
@@ -38,7 +38,7 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(LoadScene(MENU_SCENE, GAMEPLAY_SCENE));
     }
 
-    IEnumerator LoadScene(int sceneIndex, int unloadScene, bool down = false)
+    IEnumerator LoadScene(int sceneIndex, int unloadScene, bool music = true)
     {
         InputReader.Clear();
         Transition.gameObject.SetActive(true);
@@ -52,6 +52,18 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(sceneIndex, LoadSceneMode.Additive);
         yield return new WaitForSeconds(0.33f);
         Transition.SetTrigger("Reveal");
+
+
+        if (music)
+        {
+            if (sceneIndex == GAMEPLAY_SCENE)
+                JSAM.AudioManager.PlayMusic(JSAM.Music.Music_game);
+            if (sceneIndex == MENU_SCENE)
+                JSAM.AudioManager.PlayMusic(JSAM.Music.Music_Title);
+        }
+
+
+
         yield return new WaitForSeconds(TransitionTime);
         Transition.gameObject.SetActive(false);
     }

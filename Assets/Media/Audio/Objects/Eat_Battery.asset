@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d15ae218647a2d4f85e14306846c10c, type: 3}
   m_Name: Eat_Battery
   m_EditorClassIdentifier: 
-  file: {fileID: 0}
+  file: {fileID: 8300000, guid: 46113bccfa265ee4888f4b86ef84f8c5, type: 3}
   files: []
   useLibrary: 0
   neverRepeat: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
   bypassEffects: 0
   bypassListenerEffects: 0
   bypassReverbZones: 0
-  safeName: 
+  safeName: Eat_Battery
   chorusFilter:
     enabled: 0
     dryMix: 0

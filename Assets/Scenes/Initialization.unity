@@ -256,6 +256,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
+--- !u!1 &1942878262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4525688047578866345, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
+  m_PrefabInstance: {fileID: 703651826}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1942878265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942878262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd13adbb36a3a614fafbec256720d4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spatializeSound: 0
+  transitionMode: 0
+  keepPlaybackPosition: 1
+  restartOnReplay: 0
+  musicFadeInTime: 0
+  musicFadeOutTime: 0
+  loopMode: 1
+  music: {fileID: 11400000, guid: a3fd86181df2c9048b8f60d4f3dcfba4, type: 2}
+  onStart: 1
+  onEnable: 0
+  onDisable: 0
+  onDestroy: 0
 --- !u!95 &2089894026 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 4525688048499057184, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
