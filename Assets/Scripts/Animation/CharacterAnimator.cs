@@ -35,10 +35,16 @@ public class CharacterAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        faceAnimator.GetComponent<SpriteRenderer>().flipX = movementController.Velocity.x < 0;
-        bodyAnimator.GetComponent<SpriteRenderer>().flipX = movementController.Velocity.x < 0;
-
-
+        if (math.length(movementController.Direction) != 0 || movementController.wireHolder.AttachedToWire)
+        {
+            var flip = movementController.Velocity.x < 0;
+            if (movementController.GetComponent<SpriteRenderer>().flipX != flip)
+            {
+                movementController.GetComponent<SpriteRenderer>().flipX = movementController.Velocity.x < 0;
+                faceAnimator.GetComponent<SpriteRenderer>().flipX = movementController.Velocity.x < 0;
+                bodyAnimator.GetComponent<SpriteRenderer>().flipX = movementController.Velocity.x < 0;
+            }
+        }
 
         var sprite = boostAnimator.GetComponent<SpriteRenderer>();
         if (movementController.GetComponent<SpriteRenderer>().flipX)

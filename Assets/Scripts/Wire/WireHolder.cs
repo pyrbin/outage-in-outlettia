@@ -45,9 +45,16 @@ public class WireHolder : MonoBehaviour
 
     public void ToggleRecordingDistance() => recordTravel = !recordTravel;
 
+    public bool ignoreLastHoldRequest = false;
+
     public void ToggleHold()
     {
         retracting = false;
+        if (ignoreLastHoldRequest)
+        {
+            ignoreLastHoldRequest = false;
+            return;
+        }
 
         if (!AttachedToWire && !tryingToHold)
         {
@@ -159,21 +166,17 @@ public class WireHolder : MonoBehaviour
     void Update()
     {
         if (!Wire) return;
-
-
-
-        if (Controller.Velocity.x < 0)
+        if (Wire.OverrideVisualTarget == null)
+        {
+            Wire.OverrideVisualTarget = LeftHand;
+        }
+        else if (Controller.GetComponent<SpriteRenderer>().flipX)
         {
             Wire.OverrideVisualTarget = RightHand;
         }
-        else if (Controller.Velocity.x > 0)
+        else
         {
             Wire.OverrideVisualTarget = LeftHand;
-        }
-        else if (Wire.OverrideVisualTarget == null)
-        {
-            Wire.OverrideVisualTarget = LeftHand;
-
         }
     }
 

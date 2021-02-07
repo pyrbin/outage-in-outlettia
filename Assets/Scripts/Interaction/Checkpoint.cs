@@ -73,8 +73,8 @@ public class Checkpoint : Interactable
     public void Success()
     {
         oldWire = holder.Wire;
-        oldWire.Target = SocketIn;
         oldWire.OverrideVisualTarget = SocketIn;
+        oldWire.Target = SocketIn;
         spriteRenderer.sprite = TakenSprite;
         newWire = Instantiate(wirePrefab);
         //newWire.Lock = true;

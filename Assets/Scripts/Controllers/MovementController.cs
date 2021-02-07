@@ -20,7 +20,8 @@ public class MovementController : MonoBehaviour
     public float MaxSpeed = 5f;
     public float Acceleration = 15f;
     public float Deacceleration = 20f;
-    public float BoostPower = 1f;
+
+    public float BoostPower = 5f;
     public float SwingForce = 1f;
 
     public float Direction
@@ -54,8 +55,8 @@ public class MovementController : MonoBehaviour
 
         // Should only check ground contact
         ContactFilter.useNormalAngle = true;
-        ContactFilter.minNormalAngle = 75f;
-        ContactFilter.maxNormalAngle = 105f;
+        ContactFilter.minNormalAngle = 90f;
+        ContactFilter.maxNormalAngle = 90f;
     }
 
     void FixedUpdate()
@@ -86,9 +87,9 @@ public class MovementController : MonoBehaviour
                     if (!AudioManager.IsSoundPlaying(Sounds.Walk))
                         AudioManager.PlaySound(Sounds.Walk);
                 }
-                Deaccalerate();
                 Accelerate();
             }
+            Deaccalerate();
         }
 
         if (IsGrounded || !wireHolder.AttachedToWire)
@@ -166,8 +167,11 @@ public class MovementController : MonoBehaviour
     public void Boost()
     {
         if (!wireHolder.AttachedToWire || !HasBoost) return;
+        wireHolder.ToggleHold();
+        wireHolder.ignoreLastHoldRequest = true;
 
-        rbody.AddForce((rbody.velocity / rbody.velocity.magnitude) * BoostPower, ForceMode2D.Impulse);
+        rbody.AddForce(math.normalize(rbody.velocity) * BoostPower, ForceMode2D.Impulse);
+
         HasBoost = false;
         UsedBoost?.Invoke();
     }

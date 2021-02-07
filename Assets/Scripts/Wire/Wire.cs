@@ -249,8 +249,15 @@ public class Wire : MonoBehaviour
             }
             else if (hit.collider is CompositeCollider2D composite)
             {
-                point = Physics2DUtility.GetClosestPointFromPoint(hit.point, composite);
-                foundValid = true;
+                try
+                {
+                    point = Physics2DUtility.GetClosestPointFromPoint(hit.point, composite);
+                    foundValid = true;
+                }
+                catch
+                {
+                    foundValid = false;
+                }
             }
             if (foundValid && NotTooSimilarToLast(point))
             {

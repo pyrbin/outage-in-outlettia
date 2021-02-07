@@ -12,10 +12,17 @@ public class SceneLoader : MonoBehaviour
     public readonly static int GAMEPLAY_SCENE = 2;
     public readonly static int DIALOG_SCENE = 3;
 
+    public bool DontLoadMenuOnStart = false;
+
     public void Awake()
     {
         Transition.gameObject.SetActive(false);
-        SceneManager.LoadScene(MENU_SCENE, LoadSceneMode.Additive);
+        if (!DontLoadMenuOnStart)
+            SceneManager.LoadScene(MENU_SCENE, LoadSceneMode.Additive);
+        else
+        {
+            Transition.SetTrigger("Reveal");
+        }
     }
 
     public void LoadDialog()
