@@ -326,6 +326,7 @@ public class Wire : MonoBehaviour
         LineRenderer.endWidth = Width;
         LineRenderer.positionCount = points.Count;
         LineRenderer.SetPositions(points.ToArray());
+        LineRenderer.alignment = LineAlignment.View;
 
         EdgeCollider.edgeRadius = Width / 2f;
         EdgeCollider.points = points.Select(x => new Vector2(x.x, x.y)).ToArray();
