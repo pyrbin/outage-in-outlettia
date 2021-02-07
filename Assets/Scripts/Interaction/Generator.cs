@@ -26,14 +26,28 @@ public class Generator : Interactable
         Hint.gameObject.SetActive(false);
     }
 
+    public bool Seen { get; private set; } = false;
+    public Interactor interactor;
+
     protected override void InRange(Interactor user)
     {
-        Hint.gameObject.SetActive(!Taken);
+        Seen = !Taken;
+        interactor = user;
     }
 
     protected override void LostRange(Interactor user)
     {
+        Seen = false;
         Hint.gameObject.SetActive(false);
+        interactor = null;
+    }
+
+    void Update()
+    {
+        if (Seen && !Taken && interactor && interactor.Nearest)
+        {
+            Hint.gameObject.SetActive(!Taken && interactor.Nearest == this as Interactable);
+        }
     }
 
     protected override void OnInteract(Interactor user)
@@ -65,5 +79,6 @@ public class Generator : Interactable
     public void DisableOldWire()
     {
         OnInserted.Invoke();
+        this.enabled = false;
     }
 }

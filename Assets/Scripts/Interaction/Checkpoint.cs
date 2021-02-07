@@ -33,14 +33,28 @@ public class Checkpoint : Interactable
         Hint.gameObject.SetActive(false);
     }
 
+    public bool Seen { get; private set; } = false;
+    public Interactor interactor;
+
     protected override void InRange(Interactor user)
     {
-        Hint.gameObject.SetActive(!Taken);
+        Seen = !Taken;
+        interactor = user;
     }
 
     protected override void LostRange(Interactor user)
     {
+        Seen = false;
         Hint.gameObject.SetActive(false);
+        interactor = null;
+    }
+
+    void Update()
+    {
+        if (Seen && !Taken && interactor && interactor.Nearest)
+        {
+            Hint.gameObject.SetActive(!Taken && interactor.Nearest == this as Interactable);
+        }
     }
 
     protected override void OnInteract(Interactor user)
@@ -49,7 +63,7 @@ public class Checkpoint : Interactable
         {
             Taken = true;
             holder = wireHolder;
-            wireHolder.transform.position = SocketIn.position - new Vector3(0.35f, 0, 0);
+            wireHolder.transform.position = SocketIn.position - new Vector3(0.347f, 0, 0);
             wireHolder.CheckpointUsed.Invoke(this);
             Invoke("Success", time);
             JSAM.AudioManager.PlaySound(Sounds.Connect_Wire);
@@ -62,22 +76,33 @@ public class Checkpoint : Interactable
         oldWire.Target = SocketIn;
         spriteRenderer.sprite = TakenSprite;
         newWire = Instantiate(wirePrefab);
+        //newWire.Lock = true;
         newWire.transform.parent = this.transform;
-        holder.SetWire(newWire);
+        holder.distanceX = 0;
+        holder.ShouldPlace = false;
         newWire.MaxLength = MaxLength;
         newWire.Target = holder.transform;
         newWire.Origin = SocketOut;
         newWire.Init();
-        holder.transform.position = SocketOut.position + new Vector3(0.35f, 0, 0);
+        holder.SetWire(newWire);
+        holder.transform.position = SocketOut.position + new Vector3(0.1f, 0, 0);
         OnSuccess.Invoke();
         Hint.gameObject.SetActive(false);
-        Invoke("DisableOldWire", 1f);
+        holder.ShouldPlace = true;
+        Invoke("DisableOldWire", .5f);
+        Invoke("UnLock", .05f);
         JSAM.AudioManager.PlaySound(Sounds.Checkpoint_Used);
 
-    }
 
+    }
+    public void UnLock()
+    {
+        if (newWire.PointsLength > 1)
+            newWire.RemoveLast();
+    }
     public void DisableOldWire()
     {
         // oldWire.Freeze();
+        this.enabled = false;
     }
 }

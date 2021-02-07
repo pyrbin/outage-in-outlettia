@@ -51,6 +51,7 @@ MonoBehaviour:
   ReloadText: {fileID: 0}
   EndScore: {fileID: 0}
   EndScoreText: {fileID: 0}
+  BoostIndicator: {fileID: 0}
   InputReader: {fileID: 11400000, guid: 8089e315f60def549a3fde454c70f4cd, type: 2}
 --- !u!114 &5425153042299216636
 MonoBehaviour:
@@ -64,13 +65,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c6cfe8bfc0d31409a979c41b0c8d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spatialSound: 1
+  spatialSound: 0
   loopSound: 0
   priority: 128
   pitchShift: 0
   delay: 0
   ignoreTimeScale: 0
-  sound: {fileID: 0}
+  sound: {fileID: 11400000, guid: 07b6a740a2716004382d36e961b999a9, type: 2}
   onStart: 0
   onEnable: 0
   onDisable: 0

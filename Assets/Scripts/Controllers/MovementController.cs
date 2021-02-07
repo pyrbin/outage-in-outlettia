@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JSAM;
@@ -36,6 +37,10 @@ public class MovementController : MonoBehaviour
     public MovementState state = MovementState.Free;
 
     public AudioSource swingingSound;
+
+    public event Action UsedBoost;
+
+    public bool HasBoost = false;
 
     [Header("Debugging")]
     public bool DrawGizmos = true;
@@ -160,8 +165,11 @@ public class MovementController : MonoBehaviour
 
     public void Boost()
     {
-        if (wireHolder.AttachedToWire)
-            rbody.AddForce((rbody.velocity / rbody.velocity.magnitude) * BoostPower, ForceMode2D.Impulse);
+        if (!wireHolder.AttachedToWire || !HasBoost) return;
+
+        rbody.AddForce((rbody.velocity / rbody.velocity.magnitude) * BoostPower, ForceMode2D.Impulse);
+        HasBoost = false;
+        UsedBoost?.Invoke();
     }
 
     private void Accelerate()

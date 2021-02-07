@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     public GameObject ReloadText;
     public GameObject EndScore;
     public TMPro.TMP_Text EndScoreText;
+    public GameObject BoostIndicator;
 
     private SceneLoader Loader;
 
@@ -21,6 +22,7 @@ public class Game : MonoBehaviour
 
     [SerializeField]
     private InputReader InputReader;
+    private MovementController PlayerMc;
 
     private bool reachedMax = false;
     private bool restarting = false;
@@ -55,6 +57,8 @@ public class Game : MonoBehaviour
             reachedMax = true;
         };
 
+        PlayerMc = Player.GetComponent<MovementController>();
+
     }
 
 
@@ -64,6 +68,9 @@ public class Game : MonoBehaviour
         {
             ReloadText.SetActive(false);
         }
+
+        BoostIndicator.SetActive(PlayerMc.HasBoost);
+
     }
 
     public void Restart()

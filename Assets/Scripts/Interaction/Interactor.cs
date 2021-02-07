@@ -41,10 +41,7 @@ public class Interactor : MonoBehaviour
             inter.Lost(this);
         };
 
-        StartCoroutine(
-     UpdateInRangeLoop(0.1f)
- );
-
+        StartCoroutine(UpdateInRangeLoop(0.1f));
     }
 
     private bool GetInteractable(Transform target, out Interactable inter)
@@ -80,6 +77,7 @@ public class Interactor : MonoBehaviour
         Interactable current = null;
         foreach (var inter in Tracked)
         {
+            if (inter == null) Tracked.Remove(inter);
             var dist = math.distance(inter.transform.position, transform.position);
             //if (dist > MaxDistance) continue;
             if (dist < min)

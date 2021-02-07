@@ -37,6 +37,7 @@ public class Wire : MonoBehaviour
     private ContactPoint2D[] ContactPoints;
 
     private float Length = 0f;
+    public int PointsLength => Placed.Count;
 
     public void Freeze()
     {
@@ -81,6 +82,7 @@ public class Wire : MonoBehaviour
 
     public bool AtMaxLength => TotalLength >= MaxLength;
     public bool WentAboveMaxLength => TotalLength > MaxLength;
+    public bool Lock = false;
 
     public void Tighten()
     {
@@ -125,19 +127,23 @@ public class Wire : MonoBehaviour
 
     public void UnsafeAdd(Point point, float distance)
     {
+        if (Lock) return;
         Length += round.d2(distance);
         Placed.Add(new Point { Value = point.Value });
     }
 
     public void RemoveLast()
     {
+        if (Lock) return;
         var idx = InAirIndex(LastPlaced);
         if (idx != -1)
         {
             InAir.RemoveAt(idx);
         }
+
         var distance = math.abs(math.distance(SecondLastPlaced.Value, LastPlaced.Value));
         Length -= round.d2(distance);
+
         Placed.RemoveAt(Placed.Count - 1);
     }
 

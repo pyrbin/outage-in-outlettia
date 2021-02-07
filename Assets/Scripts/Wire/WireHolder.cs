@@ -25,7 +25,8 @@ public class WireHolder : MonoBehaviour
     private bool recordTravel = true;
     private bool tryingToHold = false;
     private bool retracting = false;
-    private float distanceX = 0;
+    [HideInInspector]
+    public float distanceX = 0;
     private float3 previousPosition = float3.zero;
     private Wire.Point originHangPoint;
 
