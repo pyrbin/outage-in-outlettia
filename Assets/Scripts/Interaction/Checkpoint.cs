@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JSAM;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -51,6 +52,7 @@ public class Checkpoint : Interactable
             wireHolder.transform.position = SocketIn.position - new Vector3(0.35f, 0, 0);
             wireHolder.CheckpointUsed.Invoke(this);
             Invoke("Success", time);
+            JSAM.AudioManager.PlaySound(Sounds.Connect_Wire);
         }
     }
 
@@ -69,6 +71,7 @@ public class Checkpoint : Interactable
         OnSuccess.Invoke();
         Hint.gameObject.SetActive(false);
         Invoke("DisableOldWire", 1f);
+        JSAM.AudioManager.PlaySound(Sounds.Checkpoint_Used);
 
     }
 

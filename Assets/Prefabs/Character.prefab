@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 5382779026241950336}
   - component: {fileID: 7471876912699835275}
   - component: {fileID: 1864592227}
+  - component: {fileID: 1253205942}
   m_Layer: 6
   m_Name: Character
   m_TagString: Player
@@ -308,6 +309,7 @@ MonoBehaviour:
     maxNormalAngle: 0
   wireHolder: {fileID: 7084479399787328518}
   state: 1
+  swingingSound: {fileID: 0}
   DrawGizmos: 1
 --- !u!232 &7084479399787328512
 DistanceJoint2D:
@@ -432,6 +434,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.86478186, y: 0.9522762}
   m_EdgeRadius: 0
+--- !u!114 &1253205942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084479399787328537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c6cfe8bfc0d31409a979c41b0c8d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spatialSound: 0
+  loopSound: 0
+  priority: 128
+  pitchShift: 0.05
+  delay: 0
+  ignoreTimeScale: 0
+  sound: {fileID: 11400000, guid: 0f2f34ca52cf33f42854787f7c09e769, type: 2}
+  onStart: 0
+  onEnable: 0
+  onDisable: 0
+  onDestroy: 0
 --- !u!1 &7471876912569759704
 GameObject:
   m_ObjectHideFlags: 0
