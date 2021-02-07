@@ -52,7 +52,8 @@ public class ProlougeManager : MonoBehaviour
 
     void OnDisable()
     {
-        VillageScene.SetActive(false);
+        if (VillageScene)
+            VillageScene.SetActive(false);
     }
 
     public void AddDialog(string talker, string content)
