@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 720814520879724675}
   - component: {fileID: 2298603791908547277}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Outlettia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!114 &8713458060701335677
+--- !u!114 &7074559346078151670
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
