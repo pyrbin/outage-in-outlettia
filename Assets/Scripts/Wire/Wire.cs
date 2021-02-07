@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(LineRenderer), typeof(EdgeCollider2D))]
 public class Wire : MonoBehaviour
@@ -166,7 +167,7 @@ public class Wire : MonoBehaviour
 
         CheckWrapForInAir();
 
-        WrapWireAroundObstacles(LastPlaced.Value, Current.Value, Placed.Count);
+        // WrapWireAroundObstacles(LastPlaced.Value, Current.Value, Placed.Count);
 
         if (WrapAroundCorners)
             TargetToLastRaycastCheck();
@@ -211,12 +212,22 @@ public class Wire : MonoBehaviour
     private bool WrapWireAroundObstacles(float2 a, float2 b, int insertAt)
     {
         var added = false;
-        var offset = new float2(0, 0.055f);
-        var hit = Physics2D.Linecast(a + offset, b + offset, GroundMask);
-        if (hit && hit.collider is PolygonCollider2D polygon)
+        var hit = Physics2D.Linecast(a, b, GroundMask);
+        if (hit)
         {
-            var point = Physics2DUtility.GetClosestPointFromRaycastHit(hit, polygon);
-            if (NotTooSimilarToLast(point))
+            float2 point = hit.point;
+            var foundValid = false;
+            if (hit.collider is PolygonCollider2D polygon)
+            {
+                point = Physics2DUtility.GetClosestPointFromPoint(hit.point, polygon);
+                foundValid = true;
+            }
+            else if (hit.collider is CompositeCollider2D composite)
+            {
+                point = Physics2DUtility.GetClosestPointFromPoint(hit.point, composite);
+                foundValid = true;
+            }
+            if (foundValid && NotTooSimilarToLast(point))
             {
                 Placed.Insert(insertAt, new Point { Value = point });
                 if (DrawGizmos)
@@ -226,7 +237,7 @@ public class Wire : MonoBehaviour
         }
         if (DrawGizmos)
         {
-            Debug.DrawLine(new float3(a + offset, 1), new float3(b + offset, 1), Color.blue);
+            Debug.DrawLine(new float3(a, 1), new float3(b, 1), Color.blue);
         }
         return added;
     }
@@ -239,8 +250,7 @@ public class Wire : MonoBehaviour
             // Raycast(point.Value, -Vector2.up, Mathf.Infinity, GroundMask);
             var hit = Physics2D.OverlapCircle(point.Value, 0.1f, GroundMask);
             var removed = false;
-
-            if (hit != null && hit.transform.position.y < point.Value.y)
+            if (hit != null && hit.ClosestPoint(point.Value).y < point.Value.y)
             {
                 InAir.RemoveAt(i);
                 removed = true;
@@ -257,7 +267,7 @@ public class Wire : MonoBehaviour
 
     private bool NotTooSimilarToLast(float2 point)
     {
-        return math.abs(math.distance(LastPlaced.Value, point)) > 0.15f;
+        return math.abs(math.distance(LastPlaced.Value, point)) > .15f;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

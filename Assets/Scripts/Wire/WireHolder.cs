@@ -168,6 +168,7 @@ public class WireHolder : MonoBehaviour
 
         // Hanging state
         UpdateWhenHanging();
+
         // Retracting state
         UpdateRetractWire();
 
@@ -199,7 +200,7 @@ public class WireHolder : MonoBehaviour
         if (!retracting) return;
         var subtract = RetractSpeed * Time.fixedDeltaTime;
         var distance = math.distance(Wire.LastPlaced.Value, ((float3)transform.position).xy) - subtract;
-        SetJointDistance(math.max(Height - 0.2f, distance));
+        SetJointDistance(math.max(0.5f, distance));
     }
 
     void UpdateWirePlacement()

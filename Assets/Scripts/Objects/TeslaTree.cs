@@ -16,7 +16,6 @@ public class TeslaTree : MonoBehaviour
 
     void PlayAnim()
     {
-        Debug.Log("Play :)");
         float randomTime = Random.Range(TimeInterval.x, TimeInterval.y);
         Animator.SetTrigger("Play");
         Invoke("PlayAnim", randomTime);
