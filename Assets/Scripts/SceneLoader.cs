@@ -6,6 +6,7 @@ public class SceneLoader : MonoBehaviour
 {
     public Animator Transition;
     public float TransitionTime;
+    public InputReader InputReader;
 
     public readonly static int MENU_SCENE = 1;
     public readonly static int GAMEPLAY_SCENE = 2;
@@ -39,6 +40,7 @@ public class SceneLoader : MonoBehaviour
 
     IEnumerator LoadScene(int sceneIndex, int unloadScene, bool down = false)
     {
+        InputReader.Clear();
         Transition.gameObject.SetActive(true);
         Transition.SetTrigger("Hide");
         yield return new WaitForSeconds(TransitionTime);
