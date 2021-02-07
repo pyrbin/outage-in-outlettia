@@ -46,8 +46,8 @@ public class MovementController : MonoBehaviour
 
         // Should only check ground contact
         ContactFilter.useNormalAngle = true;
-        ContactFilter.minNormalAngle = 90f;
-        ContactFilter.maxNormalAngle = 90f;
+        ContactFilter.minNormalAngle = 75f;
+        ContactFilter.maxNormalAngle = 105f;
     }
 
     void FixedUpdate()
