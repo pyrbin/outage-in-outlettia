@@ -22,6 +22,11 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(LoadScene(DIALOG_SCENE, MENU_SCENE));
     }
 
+    public void RestartGameScene()
+    {
+        StartCoroutine(LoadScene(GAMEPLAY_SCENE, GAMEPLAY_SCENE));
+    }
+
     public void LoadGameScene()
     {
         StartCoroutine(LoadScene(GAMEPLAY_SCENE, MENU_SCENE));
@@ -37,7 +42,11 @@ public class SceneLoader : MonoBehaviour
         Transition.gameObject.SetActive(true);
         Transition.SetTrigger("Hide");
         yield return new WaitForSeconds(TransitionTime);
-        SceneManager.UnloadSceneAsync(unloadScene);
+        var operation = SceneManager.UnloadSceneAsync(unloadScene);
+        while (!operation.isDone)
+        {
+            yield return new WaitForSeconds(0.01f);
+        }
         SceneManager.LoadScene(sceneIndex, LoadSceneMode.Additive);
         yield return new WaitForSeconds(0.33f);
         Transition.SetTrigger("Reveal");

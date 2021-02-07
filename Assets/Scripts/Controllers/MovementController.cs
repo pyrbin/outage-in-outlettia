@@ -103,7 +103,8 @@ public class MovementController : MonoBehaviour
     {
         Stop();
         state = MovementState.Frozen;
-        checkpoint.OnSuccess += () => state = MovementState.Free;
+        if (checkpoint)
+            checkpoint.OnSuccess += () => state = MovementState.Free;
     }
 
     private void WireMovement()

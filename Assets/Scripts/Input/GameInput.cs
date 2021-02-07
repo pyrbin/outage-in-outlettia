@@ -73,6 +73,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""2722d4b0-ce8f-43c8-93d0-f964371854e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -174,6 +182,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""UsePower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""252331aa-cf85-4c42-b304-9132ef2186f2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -216,6 +235,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_Retract = m_Gameplay.FindAction("Retract", throwIfNotFound: true);
         m_Gameplay_UsePower = m_Gameplay.FindAction("UsePower", throwIfNotFound: true);
+        m_Gameplay_Reload = m_Gameplay.FindAction("Reload", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Skip = m_Menu.FindAction("Skip", throwIfNotFound: true);
@@ -275,6 +295,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Interact;
     private readonly InputAction m_Gameplay_Retract;
     private readonly InputAction m_Gameplay_UsePower;
+    private readonly InputAction m_Gameplay_Reload;
     public struct GameplayActions
     {
         private @GameInput m_Wrapper;
@@ -286,6 +307,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
         public InputAction @Retract => m_Wrapper.m_Gameplay_Retract;
         public InputAction @UsePower => m_Wrapper.m_Gameplay_UsePower;
+        public InputAction @Reload => m_Wrapper.m_Gameplay_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -316,6 +338,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @UsePower.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUsePower;
                 @UsePower.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUsePower;
                 @UsePower.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUsePower;
+                @Reload.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -341,6 +366,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @UsePower.started += instance.OnUsePower;
                 @UsePower.performed += instance.OnUsePower;
                 @UsePower.canceled += instance.OnUsePower;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -387,6 +415,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnRetract(InputAction.CallbackContext context);
         void OnUsePower(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

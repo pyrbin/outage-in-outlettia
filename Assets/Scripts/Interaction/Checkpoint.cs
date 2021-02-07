@@ -62,6 +62,7 @@ public class Checkpoint : Interactable
         oldWire.Target = SocketIn;
         spriteRenderer.sprite = TakenSprite;
         newWire = Instantiate(wirePrefab);
+        newWire.transform.parent = this.transform;
         holder.SetWire(newWire);
         newWire.MaxLength = MaxLength;
         newWire.Target = holder.transform;
@@ -77,6 +78,6 @@ public class Checkpoint : Interactable
 
     public void DisableOldWire()
     {
-        oldWire.Freeze();
+        // oldWire.Freeze();
     }
 }

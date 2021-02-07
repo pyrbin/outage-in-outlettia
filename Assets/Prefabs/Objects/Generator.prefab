@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 988269091}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,8 @@ GameObject:
   m_Component:
   - component: {fileID: 854203117174748185}
   - component: {fileID: 905628488}
-  m_Layer: 0
+  - component: {fileID: 6909264906525593017}
+  m_Layer: 2
   m_Name: Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,6 +385,32 @@ MonoBehaviour:
   Socket: {fileID: 988269091}
   Hint: {fileID: 747760063}
   Time: 0.9
+--- !u!61 &6909264906525593017
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854203117174748190}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.042028427, y: -0.32362604}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.6724701, y: 1.4623227}
+  m_EdgeRadius: 0
 --- !u!1 &854203118280294184
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 854203118280294187}
   - component: {fileID: 854203118280294186}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
