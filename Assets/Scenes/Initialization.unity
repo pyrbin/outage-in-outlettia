@@ -316,5 +316,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8448135454087508695, guid: 6b093efd0e1291648b40068e5383672f, type: 3}
+      propertyPath: spatialSound
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448135454087508695, guid: 6b093efd0e1291648b40068e5383672f, type: 3}
+      propertyPath: dontDestroyOnLoad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448135454087508695, guid: 6b093efd0e1291648b40068e5383672f, type: 3}
+      propertyPath: dynamicSourceAllocation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448135454087508695, guid: 6b093efd0e1291648b40068e5383672f, type: 3}
+      propertyPath: audioFileObjects.Array.size
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b093efd0e1291648b40068e5383672f, type: 3}

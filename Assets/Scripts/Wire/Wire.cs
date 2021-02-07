@@ -39,6 +39,9 @@ public class Wire : MonoBehaviour
     private float Length = 0f;
     public int PointsLength => Placed.Count;
 
+    [HideInInspector]
+    public Transform OverrideVisualTarget = null;
+
     public void Freeze()
     {
         Place();
@@ -66,6 +69,13 @@ public class Wire : MonoBehaviour
     }
 
     public Point Current => new Point { Value = ((float3)Target.position).xy };
+    public Point CurrentVisual => OverrideVisualTarget == null
+        ? new Point { Value = ((float3)Target.position).xy }
+        : new Point
+        {
+            Value = ((float3)OverrideVisualTarget.position).xy
+        };
+
 
     public Point LastPlaced => Placed.Last();
     public Point SecondLastPlaced => Placed[LastPlacedIndex - 1];
@@ -326,7 +336,7 @@ public class Wire : MonoBehaviour
     public void RenderWire()
     {
         var points = Placed.Select(x => new Vector3(x.Value.x, x.Value.y, 0)).ToList();
-        points.Add(new float3(Current.Value, 0));
+        points.Add(new float3(CurrentVisual.Value, 0));
 
         LineRenderer.startWidth = Width;
         LineRenderer.endWidth = Width;

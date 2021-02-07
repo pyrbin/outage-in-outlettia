@@ -28,18 +28,17 @@ public class CharacterAnimator : MonoBehaviour
         movementController.UsedBoost += () =>
         {
             boostAnimator.SetTrigger("Run");
+            JSAM.AudioManager.PlaySound(JSAM.Sounds.Use_Battery);
         };
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (movementController.MovingDirection.x != 0)
-        {
-            bool shouldFlip = movementController.MovingDirection.x == 1 ? false : true;
-            faceAnimator.GetComponent<SpriteRenderer>().flipX = shouldFlip;
-            bodyAnimator.GetComponent<SpriteRenderer>().flipX = shouldFlip;
-        }
+        faceAnimator.GetComponent<SpriteRenderer>().flipX = movementController.Velocity.x < 0;
+        bodyAnimator.GetComponent<SpriteRenderer>().flipX = movementController.Velocity.x < 0;
+
+
 
         var sprite = boostAnimator.GetComponent<SpriteRenderer>();
         if (movementController.GetComponent<SpriteRenderer>().flipX)
@@ -57,7 +56,7 @@ public class CharacterAnimator : MonoBehaviour
         {
             powerCache = true;
             powerAnimator.SetTrigger("Run");
-            // do power animation
+            JSAM.AudioManager.PlaySound(JSAM.Sounds.Eat_Battery);
         }
         if (!movementController.HasBoost && powerCache)
         {
