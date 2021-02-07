@@ -53,7 +53,11 @@ public class Generator : Interactable
         oldWire = holder.Wire;
         oldWire.Target = Socket;
         Hint.gameObject.SetActive(false);
-        Invoke("DisableOldWire", 1f);
+        foreach (var wire in FindObjectsOfType<Wire>())
+        {
+            wire.SetColor(new Color(255f / 255f, 203f / 255f, 1f / 255f, 1));
+        }
+        Invoke("DisableOldWire", 2f);
     }
 
     public void DisableOldWire()

@@ -32,6 +32,7 @@ public class Game : MonoBehaviour
 
         InputReader.EnableGameplayInput();
         InputReader.DisableMenuInput();
+        EndScore.SetActive(false);
 
         InputReader.ReloadEvent += () =>
         {
@@ -79,7 +80,6 @@ public class Game : MonoBehaviour
 
         foreach (var wire in FindObjectsOfType<Wire>())
         {
-            wire.SetColor(new Color(255f / 255f, 203f / 255f, 1f / 255f, 1));
             length += wire.TotalLength;
         }
 
