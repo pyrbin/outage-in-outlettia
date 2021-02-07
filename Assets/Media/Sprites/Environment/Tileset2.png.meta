@@ -1,22 +1,28 @@
 fileFormatVersion: 2
-guid: 165b93e8d953c2f48b9827985040262d
+guid: 93b538bfe8bf70f4b858ed56798384a1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7636474854001419268
-    second: SmallTeslaTree_0
+      213: 7615445153462884579
+    second: Tileset2_0
   - first:
-      213: 8596160604741023307
-    second: SmallTeslaTree_1
+      213: -2302975187863120264
+    second: Tileset2_1
   - first:
-      213: 1253016756545453900
-    second: SmallTeslaTree_2
+      213: 6129200408025254337
+    second: Tileset2_2
   - first:
-      213: 8793763604995961149
-    second: SmallTeslaTree_3
+      213: -2747270272444879938
+    second: Tileset2_3
   - first:
-      213: 6927253241779830253
-    second: SmallTeslaTree_4
+      213: -2604774545348577560
+    second: Tileset2_4
+  - first:
+      213: 565280845340959731
+    second: Tileset2_5
+  - first:
+      213: -7622691698913409042
+    second: Tileset2_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -47,7 +53,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -118,13 +124,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SmallTeslaTree_0
+      name: Tileset2_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 135
-        width: 64
-        height: 128
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfbda0f749ac50690800000000000000
-      internalID: -7636474854001419268
+      spriteID: 3e810aac40f7fa960800000000000000
+      internalID: 7615445153462884579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SmallTeslaTree_1
+      name: Tileset2_1
       rect:
         serializedVersion: 2
-        x: 71
-        y: 135
-        width: 64
-        height: 128
+        x: 32
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b46bbcd8682bb4770800000000000000
-      internalID: 8596160604741023307
+      spriteID: 87651e0b4403a00e0800000000000000
+      internalID: -2302975187863120264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SmallTeslaTree_2
+      name: Tileset2_2
       rect:
         serializedVersion: 2
-        x: 142
-        y: 135
-        width: 64
-        height: 128
+        x: 64
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +180,83 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4ff08fe91c936110800000000000000
-      internalID: 1253016756545453900
+      spriteID: 1c946851c4b4f0550800000000000000
+      internalID: 6129200408025254337
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SmallTeslaTree_3
+      name: Tileset2_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebbaeec2e3cbfd9d0800000000000000
+      internalID: -2747270272444879938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tileset2_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e6b4880a5bf9dbd0800000000000000
+      internalID: -2604774545348577560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tileset2_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f361e01fe748d700800000000000000
+      internalID: 565280845340959731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tileset2_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 128
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,29 +264,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d31fa8a4869b90a70800000000000000
-      internalID: 8793763604995961149
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SmallTeslaTree_4
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 0
-        width: 64
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dedb5790f1c822060800000000000000
-      internalID: 6927253241779830253
+      spriteID: ee782fd5942c63690800000000000000
+      internalID: -7622691698913409042
       vertices: []
       indices: 
       edges: []
@@ -225,7 +273,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 53e7895227d2a7b4eafa0109759e1204
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 

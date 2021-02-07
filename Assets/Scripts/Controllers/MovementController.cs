@@ -119,7 +119,7 @@ public class MovementController : MonoBehaviour
 
     public void Jump()
     {
-        if (wireHolder.Wire && wireHolder.Wire.AtMaxLength)
+        if (wireHolder.Wire && wireHolder.Wire.AtMaxLength || state == MovementState.Frozen)
             return;
         if (!wireHolder.AttachedToWire)
         {
