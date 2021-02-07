@@ -410,8 +410,8 @@ GameObject:
   - component: {fileID: 5382779026241950336}
   - component: {fileID: 7471876912699835275}
   - component: {fileID: 1253205942}
-  - component: {fileID: 850756007}
   - component: {fileID: 7084479399787328512}
+  - component: {fileID: 850756007}
   m_Layer: 6
   m_Name: Character
   m_TagString: Player
@@ -457,7 +457,7 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -524,26 +524,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd68dba1b3c8434e9d114090268fb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpForce: 7.8
+  JumpForce: 7.35
   MaxSpeed: 5
   Acceleration: 13
   Deacceleration: 20
-  BoostPower: 8
-  SwingForce: 2.5
+  BoostPower: 10
+  SwingForce: 3.3
   ContactFilter:
     useTriggers: 0
-    useLayerMask: 0
-    useDepth: 1
+    useLayerMask: 1
+    useDepth: 0
     useOutsideDepth: 0
     useNormalAngle: 1
-    useOutsideNormalAngle: 1
+    useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 256
     minDepth: 0
     maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
+    minNormalAngle: 45
+    maxNormalAngle: 135
   wireHolder: {fileID: 7084479399787328518}
   state: 1
   swingingSound: {fileID: 0}
@@ -656,32 +656,6 @@ MonoBehaviour:
   onEnable: 0
   onDisable: 0
   onDestroy: 0
---- !u!61 &850756007
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7084479399787328537}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.018522263, y: 0.006095886}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.64, y: 0.64}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.72211075, y: 0.88004494}
-  m_EdgeRadius: 0
 --- !u!232 &7084479399787328512
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -701,6 +675,22 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 0
   m_Distance: 1.1592475
   m_MaxDistanceOnly: 0
+--- !u!70 &850756007
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084479399787328537}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0060329437, y: 0.0025627613}
+  m_Size: {x: 0.7350731, y: 0.87356806}
+  m_Direction: 0
 --- !u!1 &7471876912569759704
 GameObject:
   m_ObjectHideFlags: 0

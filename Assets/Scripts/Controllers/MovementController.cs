@@ -50,13 +50,7 @@ public class MovementController : MonoBehaviour
     {
         TryGetComponent<Rigidbody2D>(out rbody);
         TryGetComponent<WireHolder>(out wireHolder);
-
         wireHolder.CheckpointUsed += (Checkpoint checkpoint) => CheckpointUsed(checkpoint);
-
-        // Should only check ground contact
-        ContactFilter.useNormalAngle = true;
-        ContactFilter.minNormalAngle = 90f;
-        ContactFilter.maxNormalAngle = 90f;
     }
 
     void FixedUpdate()
