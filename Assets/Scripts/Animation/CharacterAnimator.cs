@@ -34,6 +34,7 @@ public class CharacterAnimator : MonoBehaviour
 
         bodyAnimator.SetBool("IsGrounded", movementController.IsGrounded);
         handsAnimator.SetBool("IsGrounded", movementController.IsGrounded);
+        faceAnimator.SetBool("IsGrounded", movementController.IsGrounded);
         bodyAnimator.SetBool("IsMoving", movementController.IsMovingSideways);
         handsAnimator.SetBool("IsMoving", movementController.IsMovingSideways);
         faceAnimator.SetBool("IsMoving", movementController.IsAcceleratingSideways);
