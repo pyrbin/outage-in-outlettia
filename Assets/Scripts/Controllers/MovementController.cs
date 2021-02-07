@@ -28,7 +28,7 @@ public class MovementController : MonoBehaviour
     }
 
     private Rigidbody2D rbody;
-    private ContactFilter2D ContactFilter;
+    public ContactFilter2D ContactFilter;
     public WireHolder wireHolder;
     private float movementDirection;
 
