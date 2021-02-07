@@ -6,7 +6,7 @@
 
 ## Overview
 
-Entry created in Unity for the game-jam  Mini-Jam 73.
+Entry created in Unity for the game-jam  [Mini-Jam 73](https://itch.io/jam/mini-jam-73-power).
 
 | Theme | Limitation |
 | -     | -          |
