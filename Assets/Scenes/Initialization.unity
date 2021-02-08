@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 784094268, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
       propertyPath: DontLoadMenuOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4525688047578866344, guid: 1bcc88c0913ee3040a9c0f40abdb76b7, type: 3}
       propertyPath: m_RootOrder
