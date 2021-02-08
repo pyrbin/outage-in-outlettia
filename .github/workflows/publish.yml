@@ -49,6 +49,6 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
-          ITCH_GAME: mini-jam-73-power
+          ITCH_GAME: outage-in-outlettia
           ITCH_USER: pyrbin
           PACKAGE: Out
