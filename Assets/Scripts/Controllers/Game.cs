@@ -15,6 +15,7 @@ public class Game : MonoBehaviour
     public GameObject EndScore;
     public TMPro.TMP_Text EndScoreText;
     public GameObject BoostIndicator;
+    public GameObject HoldingText;
 
     private SceneLoader Loader;
 
@@ -71,7 +72,7 @@ public class Game : MonoBehaviour
         }
 
         BoostIndicator.SetActive(PlayerMc.HasBoost);
-
+        HoldingText.SetActive(Holder.AttachedToWire);
     }
 
     public void Restart()

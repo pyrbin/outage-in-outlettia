@@ -158,11 +158,15 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    public bool CanUseBoost
+        => HasBoost && (wireHolder.AttachedToWire || !IsGrounded && wireHolder.Wire.LastPlacedIsHangable(transform));
+
     public void Boost()
     {
-        if (!wireHolder.AttachedToWire || !HasBoost) return;
-        wireHolder.ToggleHold();
-        wireHolder.ignoreLastHoldRequest = true;
+        if (!CanUseBoost) return;
+
+         wireHolder.ToggleHold();
+        // wireHolder.ignoreLastHoldRequest = true;
 
         rbody.AddForce(math.normalize(rbody.velocity) * BoostPower, ForceMode2D.Impulse);
 
