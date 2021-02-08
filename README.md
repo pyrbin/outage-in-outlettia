@@ -1,15 +1,32 @@
 <p align="center">
-    <br><b><i>mini-jam-73-power</i>🐦</b><br>
+    <img src="https://i.imgur.com/bgQJLY2.png" />
+    <br><b><i>Outage in Outlettia</i> ⚡ </b><br>
 </p>
 
 ---
 
-# Description
+## Overview
 
-mini-jam-73 entry
+Entry created in Unity for the game-jam  [Mini-Jam 73](https://itch.io/jam/mini-jam-73-power).
 
+| Theme | Limitation |
+| -     | -          |
+| Power | Only 5 colors shown at once   |
+
+
+## Game
+The electricity that powers a small village in Outlettia has been wrongfully stolen by an evil Electric Overlord. It's your job to  bring the power back, by connecting the village's wire to a generator located in the heart of the Overlords' castle.
+
+## Controls
+* AD - Move left / right
+* Space - Jump or use battery boost when hanging
+* Shift - Toggle hold wire
+* W - Move up the wire when hanging
+* E - Interact
+
+#### Made by Frans, Jottis & Isak
 ---
 
 <p align="center">
-    <b><i><a href="https://github.com/pyrbin/mini-jam-73-power">mini-jam-73-power</a></b></i>
+    <b><i><a href="https://pyrbin.itch.io/outage-in-outlettia">itch.io/outage-in-outlettia</a></b></i>
 </p>
