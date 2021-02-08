@@ -20,7 +20,7 @@ public class SetAnimationType : MonoBehaviour
         {
             if (SwitchOnInteract) Set();
         };
-        SetAnimations(overrideControllers[index]);
+        SetAnimations(overrideControllers[Random.Range(0, overrideControllers.Length - 1)]);
     }
 
     public void Set()

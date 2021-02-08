@@ -411,7 +411,6 @@ GameObject:
   - component: {fileID: 7471876912699835275}
   - component: {fileID: 1253205942}
   - component: {fileID: 7084479399787328512}
-  - component: {fileID: 850756007}
   m_Layer: 6
   m_Name: Character
   m_TagString: Player
@@ -675,22 +674,6 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 0
   m_Distance: 1.1592475
   m_MaxDistanceOnly: 0
---- !u!70 &850756007
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7084479399787328537}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0060329437, y: 0.0025627613}
-  m_Size: {x: 0.7350731, y: 0.87356806}
-  m_Direction: 0
 --- !u!1 &7471876912569759704
 GameObject:
   m_ObjectHideFlags: 0
